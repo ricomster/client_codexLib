@@ -13,7 +13,6 @@ root.geometry('1280x720')
 root.title('CodexLib @Bandung (Client App)')
 
 #Variables
-global status_pressed 
 status_pressed= 0
 
 #Load Images
@@ -43,6 +42,9 @@ kembali = Image.open("aset_gui/return.png").resize((80, 80), Image.ANTIALIAS)
 logo_kembali = ImageTk.PhotoImage(kembali)
 riwayat = Image.open("aset_gui/history.png").resize((80, 80), Image.ANTIALIAS)
 logo_riwayat = ImageTk.PhotoImage(riwayat)
+
+perpanjang = Image.open("aset_gui/time.png").resize((80, 80), Image.ANTIALIAS)
+logo_perpanjang = ImageTk.PhotoImage(perpanjang)
 
 check = Image.open("aset_gui/check.png").resize((90, 90), Image.ANTIALIAS)
 logo_check = ImageTk.PhotoImage(check)
@@ -434,16 +436,15 @@ footer_logo.place(anchor='center',relx=0.1, rely=0.9)
 kembali_buku_logo = Label(frame5,image=logo_kembali,background=backgroundDasar)
 kembali_buku_logo.place(anchor='center',relx=0.1, rely=0.1)
 
-return_text1 = Label(frame5, text="Pengembalian Buku", font=('Muli', 20, 'bold underline'), background=backgroundDasar)
-return_text1.place(anchor='center', relx=0.25, rely=0.1)
+return_text1 = Label(frame5, text="Pengembalian/Perpanjangan", font=('Muli', 20, 'bold underline'), background=backgroundDasar)
+return_text1.place(anchor='w', relx=0.15, rely=0.1)
 
 #Frame 4_0: Sisi kanan Judul
-frame5_0 = Frame(frame5,width=640, height=120, style='1.TFrame')
+frame5_0 = Frame(frame5,width=640, height=180, style='1.TFrame')
 frame5_0.pack(side = TOP, anchor = 'e')
 
-borrow_text5 = Label(frame5_0, text="Hasil Pencarian", font=('Muli', 20, 'bold underline'), background=backgroundDasar)
-borrow_text5.place(anchor='w', relx=0.05, rely=0.55)
-
+borrow_text5 = Label(frame5_0, text="Buku yang sedang dipinjam", font=('Muli', 14, 'bold'), background=backgroundDasar)
+borrow_text5.place(anchor='w', relx=0.03, rely=0.75)
 #Frame 5_1: Sisi kanan, bagian Tabel 
 frame5_1 = Frame(frame5, width=640, height=720, style='1.TFrame')
 frame5_1.pack(side=RIGHT, anchor = 'center')
@@ -480,9 +481,6 @@ for i in range(9):
                     values=(i+1,list[i].judul,list[i].pengarang,list[i].penerbit,list[i].isbn, list[i].status))
 
 
-#table.insert('', 'end', iid=1, values=(1,10000,10000))
-#table.insert('', 'end', iid=2, values=99999)
-
 # add scrollbars
 sx5 = Scrollbar(frame5_1, orient='horizontal', command=table.xview)
 sy5 = Scrollbar(frame5_1, orient='vertical', command=table.yview)
@@ -506,6 +504,306 @@ def toggle_drag_row5():
 sortable_t = Checkbutton(frame5_1, text='Enable Sorting', variable=sortable, command=toggle_sort5)#.pack(side='left')
 sortable_t.place(anchor='center', relx=0.5, rely=0.987)
 
+#Form Pengembalian Buku
+def enter_no_return_buku():
+    value_no_return = no_return.get()
+    print("Client ingin mengembalikan buku nomor:        ", value_no_return)
+    buku_terpilih_pengembalian()
+
+form_pengembalian= Label(frame5, text="Form Pengembalian Buku", font=('Muli', 14, 'bold'), background=backgroundDasar)
+form_pengembalian.place(anchor='w', relx=0.08, rely=0.20)
+
+return_text1 = Label(frame5, text="Masukkan nomor buku yang ingin dikembalikan:", font=('Muli', 13, 'bold'), background=backgroundDasar)
+return_text1.place(anchor='w', relx=0.08, rely=0.25)
+
+no_return = StringVar()
+nomorEntry = Entry(frame5, textvariable=no_return, width = 50)
+nomorEntry.place(anchor='w',relx=0.08, rely=0.30)
+
+button_return = Button(frame5, text="Cek", command=enter_no_return_buku)
+button_return.place(anchor='w', relx=0.34, rely=0.30)
+
+status_pressed_return = 0
+
+def buku_terpilih_pengembalian():
+    global status_pressed_return
+
+    def destroy_labels():
+        value_infobuku_judul.destroy()
+        value_infobuku_pengarang.destroy()
+        value_infobuku_isbn.destroy()
+        value_infobuku_penerbit.destroy()
+        value_infobuku_status.destroy()
+        drop.destroy()
+
+    if (status_pressed_return == 1):
+        #destroy_labels()
+        print("not 1st try")
+    else:
+        print("1st try")
+        status_pressed_return = 1
+        
+        
+    #global status_pressed 
+    #
+
+    infobuku_judul= Label(frame5, text="Judul", font=('Muli', 12, 'bold'), background=backgroundDasar)
+    infobuku_judul.place(anchor='w', relx=0.08, rely=0.35)
+
+    infobuku_pengarang= Label(frame5, text="Pengarang", font=('Muli', 12, 'bold'), background=backgroundDasar)
+    infobuku_pengarang.place(anchor='w', relx=0.08, rely=0.39)
+
+    infobuku_isbn= Label(frame5, text="ISBN", font=('Muli', 12, 'bold'), background=backgroundDasar)
+    infobuku_isbn.place(anchor='w', relx=0.08, rely=0.43)
+
+    infobuku_penerbit= Label(frame5, text="Penerbit", font=('Muli', 12, 'bold'), background=backgroundDasar)
+    infobuku_penerbit.place(anchor='w', relx=0.08, rely=0.47)
+
+    infobuku_status= Label(frame5, text="Status", font=('Muli', 12, 'bold'), background=backgroundDasar)
+    infobuku_status.place(anchor='w', relx=0.08, rely=0.51)
+
+    value_infobuku_judul= Label(frame5, text="Buku ajar fisika radiasi", font=('Muli', 12), background='#dedad9')
+    value_infobuku_judul.place(anchor='w', relx=0.2, rely=0.35)
+
+    value_infobuku_pengarang= Label(frame5, text="Dr. Sarianoferni", font=('Muli', 12), background='#dedad9')
+    value_infobuku_pengarang.place(anchor='w', relx=0.2, rely=0.39)
+    
+    value_infobuku_isbn= Label(frame5, text="978-623-329-815-5", font=('Muli', 12), background='#dedad9')
+    value_infobuku_isbn.place(anchor='w', relx=0.2, rely=0.43)
+    
+    value_infobuku_penerbit= Label(frame5, text="CV. Literasi Nusantara Abadi", font=('Muli', 12), background='#dedad9')
+    value_infobuku_penerbit.place(anchor='w', relx=0.2, rely=0.47)
+
+    value_infobuku_status= Label(frame5, text="Belum dikembalikan", font=('Muli', 12), background='#dedad9')
+    value_infobuku_status.place(anchor='w', relx=0.2, rely=0.51)
+
+    #Form Keperluan Peminjaman
+    text_durasi= Label(frame5, text="Pilih Ekspedisi", font=('Muli', 12, 'bold'), background=backgroundDasar)
+    text_durasi.place(anchor='w', relx=0.08, rely=0.55)
+
+    def show_ekspedisi():
+        Label.config( text = jenis_ekspedisi.get() )
+
+    options= ["pilih ekspedisi","JNA","NanjiExpress","TEKE","BalikinAja"]
+    # datatype of menu text
+    jenis_ekspedisi = StringVar()
+    
+    # initial menu text
+    jenis_ekspedisi.set("pilih ekspedisi")
+
+    drop = OptionMenu( frame5 , jenis_ekspedisi , *options )
+    drop.place(anchor='w', relx=0.2, rely=0.55)
+
+    resi = Label(frame5, text="Nomor resi", font=('Muli', 12, 'bold'), background=backgroundDasar)
+    resi.place(anchor='w', relx=0.08, rely=0.60)
+
+    no_resi = StringVar()
+    resiEntry = Entry(frame5, textvariable=no_resi, width = 50)
+    resiEntry.place(anchor='w',relx=0.2, rely=0.60)
+
+    def konfirmasi_kembalikan_buku():
+        value_no_pinjam = no_pinjam.get()
+        print("Client konfirmasi mengembalikan buku nomor:   ", value_no_pinjam)
+        konfirmasi_ok = Label(frame5, image=logo_check, background=backgroundDasar)
+        konfirmasi_ok.place(anchor='w', relx=0.35, rely=0.75)
+        value_infobuku_judul.destroy()
+        value_infobuku_pengarang.destroy()
+        value_infobuku_isbn.destroy()
+        value_infobuku_penerbit.destroy()
+        value_infobuku_status.destroy()
+        drop.destroy()
+
+        print("client memilih ekspedisi", jenis_ekspedisi.get(), "dengan no resi: ", no_resi.get())
+        
+    button_pinjam = Button(frame5, text="Konfirmasi Pengembalian", command=konfirmasi_kembalikan_buku)
+    button_pinjam.place(anchor='w', relx=0.2, rely=0.75)
+
+
+#########################################################################
+
+#Frame 6: Perpanjangan Buku
+frame6 = Frame(notebook, width=1280, height=720, style='1.TFrame')
+footer_logo = Label(frame6,image=lib_logo_app_kecil,background=backgroundDasar)
+footer_logo.place(anchor='center',relx=0.1, rely=0.9)
+
+kembali_buku_logo = Label(frame6,image=logo_perpanjang,background=backgroundDasar)
+kembali_buku_logo.place(anchor='center',relx=0.1, rely=0.1)
+
+return_text1 = Label(frame6, text="Perpanjangan Buku", font=('Muli', 20, 'bold underline'), background=backgroundDasar)
+return_text1.place(anchor='w', relx=0.15, rely=0.1)
+
+#Frame 4_0: Sisi kanan Judul
+frame6_0 = Frame(frame6,width=640, height=180, style='1.TFrame')
+frame6_0.pack(side = TOP, anchor = 'e')
+
+borrow_text5 = Label(frame6_0, text="Buku yang sedang dipinjam", font=('Muli', 14, 'bold'), background=backgroundDasar)
+borrow_text5.place(anchor='w', relx=0.03, rely=0.75)
+#Frame 5_1: Sisi kanan, bagian Tabel 
+frame6_1 = Frame(frame6, width=640, height=720, style='1.TFrame')
+frame6_1.pack(side=RIGHT, anchor = 'center')
+
+sortable5 = BooleanVar(frame6_1, False)
+drag_row5 = BooleanVar(frame6_1, False)
+drag_col5 = BooleanVar(frame6_1, False)
+
+columns5 = ["No", "Judul Buku", "Penulis", "ISBN", "Tgl Pengembalian", "Status"]
+table5 = Table(frame6_1, columns=columns5, sortable=sortable5.get(), drag_cols=drag_col5.get(),
+              drag_rows=drag_row5.get(), height=20)
+for col in columns5:
+    table5.heading(col, text=col)
+    table5.column(col, width=100, stretch=True, anchor = 'center')
+
+# table5.column("No", width = 40, stretch=True, anchor = 'center')
+# table5.column("Judul Buku", width = 160, stretch=True, anchor = 'w')
+# table5.column("Penulis", width = 120, stretch=True, anchor = 'w')
+# table5.column("Penerbit", width = 80, stretch=True, anchor = 'w')
+
+# sort column A content as int instead of strings
+table5.column('No', type=int)
+
+#for i in range(50):
+    #table.insert('', 'end', iid=i, values=(i, i) + tuple(i + 10 * j for j in range(2, 7)))
+
+# for i in range(9):
+#     if 'fisika' in judulbuku[i]:
+#         table.insert('', 'end', iid=i, 
+#                         values=(i+1,judulbuku[i],nama_pengarang[i],penerbit[i],no_isbn[i], 'tersedia'))
+
+for i in range(9):
+    table5.insert('', 'end', iid=i, 
+                    values=(i+1,list[i].judul,list[i].pengarang,list[i].penerbit,list[i].isbn, list[i].status))
+
+
+# add scrollbars
+sx5 = Scrollbar(frame6_1, orient='horizontal', command=table.xview)
+sy5 = Scrollbar(frame6_1, orient='vertical', command=table.yview)
+table.configure(yscrollcommand=sy5.set, xscrollcommand=sx5.set)
+
+table5.grid(sticky='ewns')
+sx5.grid(row=1, column=0, sticky='ew')
+sy5.grid(row=0, column=1, sticky='ns')
+frame6_1.update_idletasks()
+
+# toggle table properties
+def toggle_sort5():
+    table5.config(sortable=sortable.get())
+
+def toggle_drag_col5():
+    table5.config(drag_cols=drag_col.get())
+
+def toggle_drag_row5():
+    table5.config(drag_rows=drag_row.get())
+
+sortable_t = Checkbutton(frame6_1, text='Enable Sorting', variable=sortable, command=toggle_sort5)#.pack(side='left')
+sortable_t.place(anchor='center', relx=0.5, rely=0.987)
+
+#Form Pengembalian Buku
+def enter_no_return_buku():
+    value_no_return = no_return.get()
+    print("Client ingin mengembalikan buku nomor:        ", value_no_return)
+    buku_terpilih_pengembalian()
+
+form_pengembalian= Label(frame6, text="Form Perpanjangan Peminjaman Buku", font=('Muli', 14, 'bold'), background=backgroundDasar)
+form_pengembalian.place(anchor='w', relx=0.08, rely=0.20)
+
+return_text1 = Label(frame6, text="Masukkan nomor buku yang ingin diperpanjang:", font=('Muli', 13, 'bold'), background=backgroundDasar)
+return_text1.place(anchor='w', relx=0.08, rely=0.25)
+
+no_return = StringVar()
+nomorEntry = Entry(frame6, textvariable=no_return, width = 50)
+nomorEntry.place(anchor='w',relx=0.08, rely=0.30)
+
+button_return = Button(frame6, text="Cek", command=enter_no_return_buku)
+button_return.place(anchor='w', relx=0.34, rely=0.30)
+
+status_pressed_return = 0
+
+def buku_terpilih_pengembalian():
+    global status_pressed_return
+
+    def destroy_labels():
+        value_infobuku_judul.destroy()
+        value_infobuku_pengarang.destroy()
+        value_infobuku_isbn.destroy()
+        value_infobuku_penerbit.destroy()
+        value_infobuku_status.destroy()
+        drop.destroy()
+
+    if (status_pressed_return == 1):
+        #destroy_labels()
+        print("not 1st try")
+    else:
+        print("1st try")
+        status_pressed_return = 1
+        
+        
+    #global status_pressed 
+    #
+
+    infobuku_judul= Label(frame6, text="Judul", font=('Muli', 12, 'bold'), background=backgroundDasar)
+    infobuku_judul.place(anchor='w', relx=0.08, rely=0.35)
+
+    infobuku_pengarang= Label(frame6, text="Pengarang", font=('Muli', 12, 'bold'), background=backgroundDasar)
+    infobuku_pengarang.place(anchor='w', relx=0.08, rely=0.39)
+
+    infobuku_isbn= Label(frame6, text="ISBN", font=('Muli', 12, 'bold'), background=backgroundDasar)
+    infobuku_isbn.place(anchor='w', relx=0.08, rely=0.43)
+
+    infobuku_penerbit= Label(frame6, text="Penerbit", font=('Muli', 12, 'bold'), background=backgroundDasar)
+    infobuku_penerbit.place(anchor='w', relx=0.08, rely=0.47)
+
+    infobuku_status= Label(frame6, text="Status", font=('Muli', 12, 'bold'), background=backgroundDasar)
+    infobuku_status.place(anchor='w', relx=0.08, rely=0.51)
+
+    value_infobuku_judul= Label(frame6, text="Buku ajar fisika radiasi", font=('Muli', 12), background='#dedad9')
+    value_infobuku_judul.place(anchor='w', relx=0.2, rely=0.35)
+
+    value_infobuku_pengarang= Label(frame6, text="Dr. Sarianoferni", font=('Muli', 12), background='#dedad9')
+    value_infobuku_pengarang.place(anchor='w', relx=0.2, rely=0.39)
+    
+    value_infobuku_isbn= Label(frame6, text="978-623-329-815-5", font=('Muli', 12), background='#dedad9')
+    value_infobuku_isbn.place(anchor='w', relx=0.2, rely=0.43)
+    
+    value_infobuku_penerbit= Label(frame6, text="CV. Literasi Nusantara Abadi", font=('Muli', 12), background='#dedad9')
+    value_infobuku_penerbit.place(anchor='w', relx=0.2, rely=0.47)
+
+    value_infobuku_status= Label(frame6, text="Dapat diperpanjang", font=('Muli', 12), background='#dedad9')
+    value_infobuku_status.place(anchor='w', relx=0.2, rely=0.51)
+
+    #Form Keperluan Peminjaman
+    text_durasi= Label(frame6, text="Pilih durasi", font=('Muli', 12, 'bold'), background=backgroundDasar)
+    text_durasi.place(anchor='w', relx=0.08, rely=0.55)
+
+    def show_extend():
+        Label.config( text = durasi_perpanjang.get() )
+
+    options= ["pilih durasi","7 hari","14 hari"]
+    # datatype of menu text
+    durasi_perpanjang = StringVar()
+    
+    # initial menu text
+    durasi_perpanjang.set("pilih durasi")
+
+    drop = OptionMenu( frame6 , durasi_perpanjang , *options )
+    drop.place(anchor='w', relx=0.2, rely=0.55)
+
+    def konfirmasi_perpanjang_buku():
+        value_no_pinjam = no_pinjam.get()
+        print("Client konfirmasi ingin perpanjang buku nomor:   ", value_no_pinjam)
+        konfirmasi_ok = Label(frame6, image=logo_check, background=backgroundDasar)
+        konfirmasi_ok.place(anchor='w', relx=0.35, rely=0.75)
+        value_infobuku_judul.destroy()
+        value_infobuku_pengarang.destroy()
+        value_infobuku_isbn.destroy()
+        value_infobuku_penerbit.destroy()
+        value_infobuku_status.destroy()
+        drop.destroy()
+
+        print("client memilih perpanjangan", durasi_perpanjang.get())
+        
+    button_pinjam = Button(frame6, text="Konfirmasi Perpanjangan", command=konfirmasi_perpanjang_buku)
+    button_pinjam.place(anchor='w', relx=0.2, rely=0.75)
+
 
 # add frames to notebook 
 
@@ -514,6 +812,7 @@ notebook.add(frame2, text='Dashboard')
 notebook.add(frame3, text='Cari Buku')
 notebook.add(frame4, text='Peminjaman Buku')
 notebook.add(frame5, text='Pengembalian Buku')
+notebook.add(frame6, text ='Perpanjangan')
 
 
 root.mainloop()
