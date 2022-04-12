@@ -338,6 +338,7 @@ def buku_terpilih():
         value_infobuku_penerbit.destroy()
         value_infobuku_status.destroy()
         drop.destroy()
+
         if (clicked.get()==" 7 hari"):
             print("durasi peminjaman 7 hari")
         elif(clicked.get()=="14 hari"):
@@ -423,9 +424,9 @@ sortable_t.place(anchor='center', relx=0.5, rely=0.987)
 
 
 
+#########################################################################
 
-
-#Frame 5: Pengembalian Buku
+#Frame 5: Pengembalian dan Perpanjangan Buku
 frame5 = Frame(notebook, width=1280, height=720, style='1.TFrame')
 footer_logo = Label(frame5,image=lib_logo_app_kecil,background=backgroundDasar)
 footer_logo.place(anchor='center',relx=0.1, rely=0.9)
@@ -435,6 +436,76 @@ kembali_buku_logo.place(anchor='center',relx=0.1, rely=0.1)
 
 return_text1 = Label(frame5, text="Pengembalian Buku", font=('Muli', 20, 'bold underline'), background=backgroundDasar)
 return_text1.place(anchor='center', relx=0.25, rely=0.1)
+
+#Frame 4_0: Sisi kanan Judul
+frame5_0 = Frame(frame5,width=640, height=120, style='1.TFrame')
+frame5_0.pack(side = TOP, anchor = 'e')
+
+borrow_text5 = Label(frame5_0, text="Hasil Pencarian", font=('Muli', 20, 'bold underline'), background=backgroundDasar)
+borrow_text5.place(anchor='w', relx=0.05, rely=0.55)
+
+#Frame 5_1: Sisi kanan, bagian Tabel 
+frame5_1 = Frame(frame5, width=640, height=720, style='1.TFrame')
+frame5_1.pack(side=RIGHT, anchor = 'center')
+
+sortable5 = BooleanVar(frame5_1, False)
+drag_row5 = BooleanVar(frame5_1, False)
+drag_col5 = BooleanVar(frame5_1, False)
+
+columns5 = ["No", "Judul Buku", "Penulis", "ISBN", "Tgl Pengembalian", "Status"]
+table5 = Table(frame5_1, columns=columns5, sortable=sortable5.get(), drag_cols=drag_col5.get(),
+              drag_rows=drag_row5.get(), height=20)
+for col in columns5:
+    table5.heading(col, text=col)
+    table5.column(col, width=100, stretch=True, anchor = 'center')
+
+# table5.column("No", width = 40, stretch=True, anchor = 'center')
+# table5.column("Judul Buku", width = 160, stretch=True, anchor = 'w')
+# table5.column("Penulis", width = 120, stretch=True, anchor = 'w')
+# table5.column("Penerbit", width = 80, stretch=True, anchor = 'w')
+
+# sort column A content as int instead of strings
+table5.column('No', type=int)
+
+#for i in range(50):
+    #table.insert('', 'end', iid=i, values=(i, i) + tuple(i + 10 * j for j in range(2, 7)))
+
+# for i in range(9):
+#     if 'fisika' in judulbuku[i]:
+#         table.insert('', 'end', iid=i, 
+#                         values=(i+1,judulbuku[i],nama_pengarang[i],penerbit[i],no_isbn[i], 'tersedia'))
+
+for i in range(9):
+    table5.insert('', 'end', iid=i, 
+                    values=(i+1,list[i].judul,list[i].pengarang,list[i].penerbit,list[i].isbn, list[i].status))
+
+
+#table.insert('', 'end', iid=1, values=(1,10000,10000))
+#table.insert('', 'end', iid=2, values=99999)
+
+# add scrollbars
+sx5 = Scrollbar(frame5_1, orient='horizontal', command=table.xview)
+sy5 = Scrollbar(frame5_1, orient='vertical', command=table.yview)
+table.configure(yscrollcommand=sy5.set, xscrollcommand=sx5.set)
+
+table5.grid(sticky='ewns')
+sx5.grid(row=1, column=0, sticky='ew')
+sy5.grid(row=0, column=1, sticky='ns')
+frame5_1.update_idletasks()
+
+# toggle table properties
+def toggle_sort5():
+    table5.config(sortable=sortable.get())
+
+def toggle_drag_col5():
+    table5.config(drag_cols=drag_col.get())
+
+def toggle_drag_row5():
+    table5.config(drag_rows=drag_row.get())
+
+sortable_t = Checkbutton(frame5_1, text='Enable Sorting', variable=sortable, command=toggle_sort5)#.pack(side='left')
+sortable_t.place(anchor='center', relx=0.5, rely=0.987)
+
 
 # add frames to notebook 
 
