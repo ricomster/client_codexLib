@@ -12,6 +12,10 @@ root = Tk()
 root.geometry('1280x720')
 root.title('CodexLib @Bandung (Client App)')
 
+#Variables
+global status_pressed 
+status_pressed= 0
+
 #Load Images
 logo_app = Image.open("aset_gui/512ppi/288ppi.png")#.resize((400, 200), Image.ANTIALIAS)
 lib_logo_app = ImageTk.PhotoImage(logo_app)
@@ -40,10 +44,10 @@ logo_kembali = ImageTk.PhotoImage(kembali)
 riwayat = Image.open("aset_gui/history.png").resize((80, 80), Image.ANTIALIAS)
 logo_riwayat = ImageTk.PhotoImage(riwayat)
 
-check = Image.open("aset_gui/check.png").resize((120, 120), Image.ANTIALIAS)
+check = Image.open("aset_gui/check.png").resize((90, 90), Image.ANTIALIAS)
 logo_check = ImageTk.PhotoImage(check)
 
-forbidden = Image.open("aset_gui/delete.png").resize((120, 120), Image.ANTIALIAS)
+forbidden = Image.open("aset_gui/delete.png").resize((90, 90), Image.ANTIALIAS)
 logo_forbidden = ImageTk.PhotoImage(forbidden)
 
 
@@ -256,44 +260,64 @@ button_pinjam.place(anchor='w', relx=0.34, rely=0.40)
 
 #bagian Konfirmasi Peminjaman
 def buku_terpilih():
+    global status_pressed
+
+    def destroy_labels():
+        value_infobuku_judul.destroy()
+        value_infobuku_pengarang.destroy()
+        value_infobuku_isbn.destroy()
+        value_infobuku_penerbit.destroy()
+        value_infobuku_status.destroy()
+        drop.destroy()
+
+    if (status_pressed == 1):
+        #destroy_labels()
+        print("not 1st try")
+    else:
+        print("1st try")
+        
+        
+    #global status_pressed 
+    #
+
     infobuku_judul= Label(frame4, text="Judul", font=('Muli', 12, 'bold'), background=backgroundDasar)
-    infobuku_judul.place(anchor='w', relx=0.08, rely=0.45)
+    infobuku_judul.place(anchor='w', relx=0.08, rely=0.48)
 
-    infobuku_judul= Label(frame4, text="Pengarang", font=('Muli', 12, 'bold'), background=backgroundDasar)
-    infobuku_judul.place(anchor='w', relx=0.08, rely=0.49)
+    infobuku_pengarang= Label(frame4, text="Pengarang", font=('Muli', 12, 'bold'), background=backgroundDasar)
+    infobuku_pengarang.place(anchor='w', relx=0.08, rely=0.52)
 
-    infobuku_judul= Label(frame4, text="ISBN", font=('Muli', 12, 'bold'), background=backgroundDasar)
-    infobuku_judul.place(anchor='w', relx=0.08, rely=0.53)
+    infobuku_isbn= Label(frame4, text="ISBN", font=('Muli', 12, 'bold'), background=backgroundDasar)
+    infobuku_isbn.place(anchor='w', relx=0.08, rely=0.56)
 
-    infobuku_judul= Label(frame4, text="Penerbit", font=('Muli', 12, 'bold'), background=backgroundDasar)
-    infobuku_judul.place(anchor='w', relx=0.08, rely=0.57)
+    infobuku_penerbit= Label(frame4, text="Penerbit", font=('Muli', 12, 'bold'), background=backgroundDasar)
+    infobuku_penerbit.place(anchor='w', relx=0.08, rely=0.60)
 
-    infobuku_judul= Label(frame4, text="Status", font=('Muli', 12, 'bold'), background=backgroundDasar)
-    infobuku_judul.place(anchor='w', relx=0.08, rely=0.61)
+    infobuku_status= Label(frame4, text="Status", font=('Muli', 12, 'bold'), background=backgroundDasar)
+    infobuku_status.place(anchor='w', relx=0.08, rely=0.64)
 
     value_infobuku_judul= Label(frame4, text="Buku ajar fisika radiasi", font=('Muli', 12), background='#dedad9')
-    value_infobuku_judul.place(anchor='w', relx=0.2, rely=0.45)
+    value_infobuku_judul.place(anchor='w', relx=0.2, rely=0.48)
 
-    value_infobuku_judul= Label(frame4, text="Dr. Sarianoferni", font=('Muli', 12), background='#dedad9')
-    value_infobuku_judul.place(anchor='w', relx=0.2, rely=0.49)
+    value_infobuku_pengarang= Label(frame4, text="Dr. Sarianoferni", font=('Muli', 12), background='#dedad9')
+    value_infobuku_pengarang.place(anchor='w', relx=0.2, rely=0.52)
     
-    value_infobuku_judul= Label(frame4, text="978-623-329-815-5", font=('Muli', 12), background='#dedad9')
-    value_infobuku_judul.place(anchor='w', relx=0.2, rely=0.53)
+    value_infobuku_isbn= Label(frame4, text="978-623-329-815-5", font=('Muli', 12), background='#dedad9')
+    value_infobuku_isbn.place(anchor='w', relx=0.2, rely=0.56)
     
-    value_infobuku_judul= Label(frame4, text="CV. Literasi Nusantara Abadi", font=('Muli', 12), background='#dedad9')
-    value_infobuku_judul.place(anchor='w', relx=0.2, rely=0.57)
+    value_infobuku_penerbit= Label(frame4, text="CV. Literasi Nusantara Abadi", font=('Muli', 12), background='#dedad9')
+    value_infobuku_penerbit.place(anchor='w', relx=0.2, rely=0.60)
 
-    value_infobuku_judul= Label(frame4, text="Tersedia", font=('Muli', 12), background='#dedad9')
-    value_infobuku_judul.place(anchor='w', relx=0.2, rely=0.61)
+    value_infobuku_status= Label(frame4, text="Tersedia", font=('Muli', 12), background='#dedad9')
+    value_infobuku_status.place(anchor='w', relx=0.2, rely=0.64)
 
     #Form Keperluan Peminjaman
-    text_durasi= Label(frame4, text="Pilih Durasi", font=('Muli', 12), background=backgroundDasar)
-    text_durasi.place(anchor='w', relx=0.08, rely=0.57)
+    text_durasi= Label(frame4, text="Pilih Durasi", font=('Muli', 12, 'bold'), background=backgroundDasar)
+    text_durasi.place(anchor='w', relx=0.08, rely=0.71)
 
     def show():
         Label.config( text = clicked.get() )
 
-    options= ["7 hari","14 hari"]
+    options= ["pilih durasi"," 7 hari","14 hari"]
     # datatype of menu text
     clicked = StringVar()
     
@@ -307,9 +331,20 @@ def buku_terpilih():
         value_no_pinjam = no_pinjam.get()
         print("Client konfirmasi meminjam buku nomor:   ", value_no_pinjam)
         konfirmasi_ok = Label(frame4, image=logo_check, background=backgroundDasar)
-        konfirmasi_ok.place(anchor='w', relx=0.34, rely=0.60)
+        konfirmasi_ok.place(anchor='w', relx=0.35, rely=0.75)
+        value_infobuku_judul.destroy()
+        value_infobuku_pengarang.destroy()
+        value_infobuku_isbn.destroy()
+        value_infobuku_penerbit.destroy()
+        value_infobuku_status.destroy()
+        drop.destroy()
+        if (clicked.get()==" 7 hari"):
+            print("durasi peminjaman 7 hari")
+        elif(clicked.get()=="14 hari"):
+            print("durasi peminjaman 14 hari")
+        else:
+            print("invalid duration")
         
-
     button_pinjam = Button(frame4, text="Konfirmasi Peminjaman", command=konfirmasi_pinjam_buku)
     button_pinjam.place(anchor='w', relx=0.2, rely=0.75)
 
