@@ -2,6 +2,7 @@ from tkinter import *
 from tkinter.ttk import *
 from PIL import ImageTk, Image
 from ttkwidgets import Table
+import json
 
 # Progres: table udah, search mechanism dan printing ke table juga udah bisa
 # opsi solusi masalah soal pinjam: input nilai aja, unique ID aja, atau pake ISBN
@@ -14,7 +15,6 @@ backgroundDasar = '#FFFFFF'
 root = Tk()
 root.geometry('1280x720')
 root.title('CodexLib @Bandung (Client App)')
-
 
 #Load Images
 logo_app = Image.open("aset_gui/512ppi/288ppi.png")#.resize((400, 200), Image.ANTIALIAS)
@@ -199,6 +199,16 @@ table.column('No', type=int)
 #for i in range(50):
     #table.insert('', 'end', iid=i, values=(i, i) + tuple(i + 10 * j for j in range(2, 7)))
 
+class tabel_buku:
+    def __init__(self, judul, pengarang, penerbit, isbn, status):
+        self.judul = judul;
+        self.pengarang = pengarang
+        self.penerbit = penerbit
+        self.isbn = isbn
+        self.status = status
+
+list = []
+
 judulbuku = ["Kemampuan berpikir tingkat tinggi", 
 "Buku ajar fisika radiasi", 
 "Fisika : buku sakti bank soal SMA/MA", 
@@ -242,9 +252,18 @@ no_isbn = ["978-623-448-048-1",
 "978-623-353-173-3"]
 
 for i in range(9):
-    if 'fisika' in judulbuku[i]:
-        table.insert('', 'end', iid=i, 
-                        values=(i+1,judulbuku[i],nama_pengarang[i],penerbit[i],no_isbn[i], 'tersedia'))
+    list.append(tabel_buku(judulbuku[i], nama_pengarang[i], penerbit[i],no_isbn[i], 'tersedia'))
+
+
+# for i in range(9):
+#     if 'fisika' in judulbuku[i]:
+#         table.insert('', 'end', iid=i, 
+#                         values=(i+1,judulbuku[i],nama_pengarang[i],penerbit[i],no_isbn[i], 'tersedia'))
+
+for i in range(9):
+    table.insert('', 'end', iid=i, 
+                    values=(i+1,list[i].judul,list[i].pengarang,list[i].penerbit,list[i].isbn, list[i].status))
+
 
 #table.insert('', 'end', iid=1, values=(1,10000,10000))
 #table.insert('', 'end', iid=2, values=99999)
