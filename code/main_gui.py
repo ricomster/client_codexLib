@@ -7,10 +7,6 @@ import json
 # Progres: table udah, search mechanism dan printing ke table juga udah bisa
 # opsi solusi masalah soal pinjam: input nilai aja, unique ID aja, atau pake ISBN
 
-LARGEFONT =("Muli", 35)
-SMALLFONT =("Muli", 18)
-backgroundDasar = '#FFFFFF'
-
 # root window
 root = Tk()
 root.geometry('1280x720')
@@ -44,7 +40,75 @@ logo_kembali = ImageTk.PhotoImage(kembali)
 riwayat = Image.open("aset_gui/history.png").resize((80, 80), Image.ANTIALIAS)
 logo_riwayat = ImageTk.PhotoImage(riwayat)
 
+check = Image.open("aset_gui/check.png").resize((120, 120), Image.ANTIALIAS)
+logo_check = ImageTk.PhotoImage(check)
+
+forbidden = Image.open("aset_gui/delete.png").resize((120, 120), Image.ANTIALIAS)
+logo_forbidden = ImageTk.PhotoImage(forbidden)
+
+
+## Inisialisasi Tabel - tabel dan data nya
+class tabel_buku:
+    def __init__(self, judul, pengarang, penerbit, isbn, status):
+        self.judul = judul;
+        self.pengarang = pengarang
+        self.penerbit = penerbit
+        self.isbn = isbn
+        self.status = status
+
+list = []
+
+judulbuku = ["Kemampuan berpikir tingkat tinggi", 
+"Buku ajar fisika radiasi", 
+"Fisika : buku sakti bank soal SMA/MA", 
+"Insight kompetisi sains nasional (KSN) fisika SMA", 
+"Buku ajar fisika bangunan", 
+"Fisika gelombang", 
+"Fisika statistik", 
+"Asik : ayo belajar fisika", 
+"Fisika di bumi nusantara"
+]
+
+nama_pengarang = ["Erni Kusrini", 
+" Dr. Sarianoferni", 
+"Yoga Yuda Pratama", 
+"Muslihun S.Si.", 
+"Sri Yuliani", 
+"Indri Dayana", 
+"Ibu Sitti Rahmasari", 
+"Zaenal Arifin", 
+"Lutfiyanti Fitriah"
+]
+
+penerbit = ["PRCI", 
+"CV. Literasi Nusantara Abadi", 
+"Kompas Ilmu", 
+"Grasindo", 
+"UNS Press", 
+"Gue Media Group", 
+"Ruang Karya Bersama", 
+"Dwija Pustaka Group", 
+"Ruang Karya Bersama"]
+
+no_isbn = ["978-623-448-048-1", 
+"978-623-329-815-5", 
+"978-602-343-731-3", 
+"978-602-05-2945-5", 
+"978-602-397-658-4", 
+"978-623-421-188-7", 
+"978-623-353-204-4", 
+"978-623-99651-2-9", 
+"978-623-353-173-3"]
+
+for i in range(9):
+    list.append(tabel_buku(judulbuku[i], nama_pengarang[i], penerbit[i],no_isbn[i], 'tersedia'))
+
+
 # create frame style
+LARGEFONT =("Muli", 35)
+SMALLFONT =("Muli", 18)
+backgroundDasar = '#FFFFFF'
+
 s = Style()
 s.configure('1.TFrame', background=backgroundDasar)
 s1 = Style()
@@ -140,31 +204,115 @@ footer_logo.place(anchor='center',relx=0.1, rely=0.9)
 pinjam_buku_logo = Label(frame4,image=logo_pinjam,background=backgroundDasar)
 pinjam_buku_logo.place(anchor='center',relx=0.1, rely=0.1)
 
-borrow_text1 = Label(frame4, text="Peminjaman Buku", font=('Muli', 20, 'bold underline'), background=backgroundDasar)
-borrow_text1.place(anchor='center', relx=0.25, rely=0.1)
+borrow_text1 = Label(frame4, text="Cari dan Pinjaman Buku", font=('Muli', 20, 'bold underline'), background=backgroundDasar)
+borrow_text1.place(anchor='w', relx=0.15, rely=0.1)
 
-borrow_text2 = Label(frame4, text="Berdasarkan Judul Buku:", font=('Muli', 18), background=backgroundDasar)
-borrow_text2.place(anchor='w', relx=0.08, rely=0.2)
+borrow_text2 = Label(frame4, text="Cari berdasarkan Judul Buku:", font=('Muli', 13), background=backgroundDasar)
+borrow_text2.place(anchor='w', relx=0.08, rely=0.18)
 
 search_judul = StringVar()
 judulEntry = Entry(frame4, textvariable=search_judul, width = 50)
-judulEntry.place(anchor='w',relx=0.08, rely=0.25)  
+judulEntry.place(anchor='w',relx=0.08, rely=0.22)  
 
 value_search_judul = search_judul.get()
 
-def enter_buku():
+def enter_judul_buku():
     value_search_judul = search_judul.get()
     print("Client mencari judul:        ", value_search_judul)
+    
+def enter_kategori_buku():
+    value_search_kategori = search_kategori.get()
+    print("Client mencari kategori:        ", value_search_kategori)
 
-search_button = Button(frame4, image=logo_search_kecil, command=enter_buku)
-search_button.place(anchor='w', relx=0.08, rely=0.30)
+search_button_judul = Button(frame4, image=logo_search_kecil, command=enter_judul_buku)
+search_button_judul.place(anchor='w', relx=0.34, rely=0.22)
 
-borrow_text3 = Label(frame4, text="Berdasarkan Kategori Buku:", font=('Muli', 18), background=backgroundDasar)
-borrow_text3.place(anchor='w', relx=0.08, rely=0.4)
+borrow_text3 = Label(frame4, text="Cari berdasarkan Kategori Buku:", font=('Muli', 13), background=backgroundDasar)
+borrow_text3.place(anchor='w', relx=0.08, rely=0.26)
 
 search_kategori = StringVar()
 kategoriEntry = Entry(frame4, textvariable=search_kategori, width = 50)
-kategoriEntry.place(anchor='w',relx=0.08, rely=0.45)
+kategoriEntry.place(anchor='w',relx=0.08, rely=0.30)
+
+search_button_kategori = Button(frame4, image=logo_search_kecil, command=enter_kategori_buku)
+search_button_kategori.place(anchor='w', relx=0.34, rely=0.30)
+
+#Form Peminjaman Buku
+def enter_no_pinjam_buku():
+    value_no_pinjam = no_pinjam.get()
+    print("Client ingin meminjam buku nomor:        ", value_no_pinjam)
+    buku_terpilih()
+
+
+borrow_text4 = Label(frame4, text="Masukkan nomor buku yang ingin dipinjam:", font=('Muli', 13, 'bold'), background=backgroundDasar)
+borrow_text4.place(anchor='w', relx=0.08, rely=0.35)
+
+no_pinjam = StringVar()
+nomorEntry = Entry(frame4, textvariable=no_pinjam, width = 50)
+nomorEntry.place(anchor='w',relx=0.08, rely=0.40)
+
+button_pinjam = Button(frame4, text="Pinjam", command=enter_no_pinjam_buku)
+button_pinjam.place(anchor='w', relx=0.34, rely=0.40)
+
+#bagian Konfirmasi Peminjaman
+def buku_terpilih():
+    infobuku_judul= Label(frame4, text="Judul", font=('Muli', 12, 'bold'), background=backgroundDasar)
+    infobuku_judul.place(anchor='w', relx=0.08, rely=0.45)
+
+    infobuku_judul= Label(frame4, text="Pengarang", font=('Muli', 12, 'bold'), background=backgroundDasar)
+    infobuku_judul.place(anchor='w', relx=0.08, rely=0.49)
+
+    infobuku_judul= Label(frame4, text="ISBN", font=('Muli', 12, 'bold'), background=backgroundDasar)
+    infobuku_judul.place(anchor='w', relx=0.08, rely=0.53)
+
+    infobuku_judul= Label(frame4, text="Penerbit", font=('Muli', 12, 'bold'), background=backgroundDasar)
+    infobuku_judul.place(anchor='w', relx=0.08, rely=0.57)
+
+    infobuku_judul= Label(frame4, text="Status", font=('Muli', 12, 'bold'), background=backgroundDasar)
+    infobuku_judul.place(anchor='w', relx=0.08, rely=0.61)
+
+    value_infobuku_judul= Label(frame4, text="Buku ajar fisika radiasi", font=('Muli', 12), background='#dedad9')
+    value_infobuku_judul.place(anchor='w', relx=0.2, rely=0.45)
+
+    value_infobuku_judul= Label(frame4, text="Dr. Sarianoferni", font=('Muli', 12), background='#dedad9')
+    value_infobuku_judul.place(anchor='w', relx=0.2, rely=0.49)
+    
+    value_infobuku_judul= Label(frame4, text="978-623-329-815-5", font=('Muli', 12), background='#dedad9')
+    value_infobuku_judul.place(anchor='w', relx=0.2, rely=0.53)
+    
+    value_infobuku_judul= Label(frame4, text="CV. Literasi Nusantara Abadi", font=('Muli', 12), background='#dedad9')
+    value_infobuku_judul.place(anchor='w', relx=0.2, rely=0.57)
+
+    value_infobuku_judul= Label(frame4, text="Tersedia", font=('Muli', 12), background='#dedad9')
+    value_infobuku_judul.place(anchor='w', relx=0.2, rely=0.61)
+
+    #Form Keperluan Peminjaman
+    text_durasi= Label(frame4, text="Pilih Durasi", font=('Muli', 12), background=backgroundDasar)
+    text_durasi.place(anchor='w', relx=0.08, rely=0.57)
+
+    def show():
+        Label.config( text = clicked.get() )
+
+    options= ["7 hari","14 hari"]
+    # datatype of menu text
+    clicked = StringVar()
+    
+    # initial menu text
+    clicked.set("pilih durasi")
+
+    drop = OptionMenu( frame4 , clicked , *options )
+    drop.place(anchor='w', relx=0.2, rely=0.71)
+
+    def konfirmasi_pinjam_buku():
+        value_no_pinjam = no_pinjam.get()
+        print("Client konfirmasi meminjam buku nomor:   ", value_no_pinjam)
+        konfirmasi_ok = Label(frame4, image=logo_check, background=backgroundDasar)
+        konfirmasi_ok.place(anchor='w', relx=0.34, rely=0.60)
+        
+
+    button_pinjam = Button(frame4, text="Konfirmasi Peminjaman", command=konfirmasi_pinjam_buku)
+    button_pinjam.place(anchor='w', relx=0.2, rely=0.75)
+
 
 #Frame 4_0: Sisi kanan Judul
 frame4_0 = Frame(frame4,width=640, height=120, style='1.TFrame')
@@ -198,62 +346,6 @@ table.column('No', type=int)
 
 #for i in range(50):
     #table.insert('', 'end', iid=i, values=(i, i) + tuple(i + 10 * j for j in range(2, 7)))
-
-class tabel_buku:
-    def __init__(self, judul, pengarang, penerbit, isbn, status):
-        self.judul = judul;
-        self.pengarang = pengarang
-        self.penerbit = penerbit
-        self.isbn = isbn
-        self.status = status
-
-list = []
-
-judulbuku = ["Kemampuan berpikir tingkat tinggi", 
-"Buku ajar fisika radiasi", 
-"Fisika : buku sakti bank soal SMA/MA", 
-"Insight kompetisi sains nasional (KSN) fisika SMA", 
-"Buku ajar fisika bangunan", 
-"Fisika gelombang", 
-"Fisika statistik", 
-"Asik : ayo belajar fisika", 
-"Fisika di bumi nusantara"
-]
-
-nama_pengarang = ["Erni Kusrini", 
-" Dr. Sarianoferni", 
-"Yoga Yuda Pratama", 
-"Muslihun S.Si.", 
-"Sri Yuliani", 
-"Indri Dayana", 
-"Ibu Sitti Rahmasari", 
-"Zaenal Arifin", 
-"Lutfiyanti Fitriah"
-]
-
-penerbit = ["PRCI", 
-"CV. Literasi Nusantara Abadi", 
-"Kompas Ilmu", 
-"Grasindo", 
-"UNS Press", 
-"Gue Media Group", 
-"Ruang Karya Bersama", 
-"Dwija Pustaka Group", 
-"Ruang Karya Bersama"]
-
-no_isbn = ["978-623-448-048-1", 
-"978-623-329-815-5", 
-"978-602-343-731-3", 
-"978-602-05-2945-5", 
-"978-602-397-658-4", 
-"978-623-421-188-7", 
-"978-623-353-204-4", 
-"978-623-99651-2-9", 
-"978-623-353-173-3"]
-
-for i in range(9):
-    list.append(tabel_buku(judulbuku[i], nama_pengarang[i], penerbit[i],no_isbn[i], 'tersedia'))
-
 
 # for i in range(9):
 #     if 'fisika' in judulbuku[i]:
@@ -291,8 +383,11 @@ def toggle_drag_row():
 sortable_t = Checkbutton(frame4_1, text='Enable Sorting', variable=sortable, command=toggle_sort)#.pack(side='left')
 sortable_t.place(anchor='center', relx=0.5, rely=0.987)
 
-Checkbutton(frame4_1, text='drag columns', variable=drag_col, command=toggle_drag_col)#.pack(side='left')
-Checkbutton(frame4_1, text='drag rows', variable=drag_row, command=toggle_drag_row)#.pack(side='left')
+# Checkbutton(frame4_1, text='drag columns', variable=drag_col, command=toggle_drag_col)#.pack(side='left')
+# Checkbutton(frame4_1, text='drag rows', variable=drag_row, command=toggle_drag_row)#.pack(side='left')
+
+
+
 
 
 #Frame 5: Pengembalian Buku
