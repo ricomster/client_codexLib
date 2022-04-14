@@ -1,0 +1,57 @@
+#Login Page
+
+1. Function cek_email_pass (POST) -> pas di pencet login, cek email sama password buat login
+	- if logic buat error (email, password)
+	- message dan status code
+	- tabel klien return
+ 
+2. get_authentication (object) buat store hasil authentication
+
+3. go_to_signup (local) -> buat ke halaman pendaftaran
+
+#Halaman Pendaftaran
+
+1. error_check (POST) availability email dan password
+	- untuk password cek lokal (8 karakter, 1 kapital, 1 angka)
+	- untuk email cek lewat response
+	- sekaligus masukkin data pendaftaran
+
+#Dashboard
+
+1. Command button (local)
+
+
+Cari dan Pinjaman Buku
+0. get_latest_library (GET) -> tambahin button buat function ini, nge get semua data library, set ke array 
+1. search_judul (local)     -> (tidak case sensitive)
+2. search_kategori (local)  -> drop down, search dari data get_latest_library
+3. search_pinjam (local)
+4. konfirmasi_peminjaman (POST) -> kirim  email peminjam, isbn, tanggal (get data date local), durasi peminjaman, status pengiriman
+
+#Pengembalian Buku
+Status -> opsinya: dalam proses pengiriman(default ketika baru pinjam), belum dikembalikan (sudah ada di klien), sudah dikembalikan.
+
+1.  get_data_peminjaman (POST) -> kirim email, response: tabel sirkulasi (tambahin unique_id_peminjaman, tanggal pengembalian dan ISBN) -> print table, filter lokal
+2.  Cek buku kembali (local)
+3.  konfirmasi_pengembalian (POST) -> kirim sesuai tabel (uniqe_id_peminjaman, noResi, jasaEkspedisi) di post ke tabel pengiriman
+
+#Perpanjangan Buku
+
+0. Print table sama dengan yang di pengembalian (get_data_peminjaman)
+1. Cek buku yang mau dperpanjang -> lokal
+
+2. konfirmasi_perpanjangan (PUT) -> error checking lokal dlu (maks durasi 28 hari), update tabel sirkulasi (unique_id_peminjaman, durasi, tanggal pengembalian baru)
+
+#Riwayat
+
+tambahin button refresh (buat POST ulang)
+
+1. get_riwayat (POST) -> kirim email
+
+Profil User
+
+tampilin data dari tabel klien
+
+1. change_profile (PUT) -> kirim (email, nama, alamat, institusi, hp) -> return berhasil
+
+2. logout button -> destroy token (kosongin variablenya), destroy tab notebook, balik ke login page, panggil api logout
