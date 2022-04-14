@@ -523,8 +523,7 @@ no_return = StringVar()
 nomorEntry = Entry(frame5, textvariable=no_return, width = 50)
 nomorEntry.place(anchor='w',relx=0.08, rely=0.30)
 
-button_return = Button(frame5, text="Cek", command=enter_no_return_buku)
-button_return.place(anchor='w', relx=0.34, rely=0.30)
+
 
 status_pressed_return = 0
 
@@ -621,7 +620,8 @@ def buku_terpilih_pengembalian():
     button_pinjam = Button(frame5, text="Konfirmasi Pengembalian", command=konfirmasi_kembalikan_buku)
     button_pinjam.place(anchor='w', relx=0.2, rely=0.75)
 
-
+button_return = Button(frame5, text="Cek", command=buku_terpilih_pengembalian)
+button_return.place(anchor='w', relx=0.34, rely=0.30)
 #########################################################################
 
 #Frame 6: Perpanjangan Buku
