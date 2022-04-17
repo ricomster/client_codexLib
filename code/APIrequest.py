@@ -54,7 +54,7 @@ def signUp(nama,email,password,alamat,institusi,telepon):
     
     if(r.status_code == 200):
         print('Signup Success')
-        return {'status':True, 'message':'Signup Success'}
+        return {'status':True, 'message':r.json()['message']}
     else:
         print("Signup Failed")
         return {'status':False, 'message':r.json()['message']}

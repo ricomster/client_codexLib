@@ -160,6 +160,11 @@ password = StringVar()
 passwordEntry = Entry(frame1, textvariable=password, show='*')
 passwordEntry.place(anchor='center',relx=0.54, rely=0.60) 
 
+def button_pendaftaran():
+    notebook.add(frame9, text ='Pendaftaran User Baru')
+    notebook.select(7)
+    notebook.hide(0)
+
 def login_next():
     global token
     r = login(username.get(),password.get())
@@ -167,14 +172,22 @@ def login_next():
     # print(r)
 
     if r['status']:
-        notebook.add(1)
-        notebook.add(2)
-        notebook.add(3)
-        notebook.add(4)
-        notebook.add(5)
-        notebook.add(6)
+        # notebook.add(1)
+        # notebook.add(2)
+        # notebook.add(3)
+        # notebook.add(4)
+        # notebook.add(5)
+        # notebook.add(6)
+        notebook.add(frame2, text='Dashboard')
+        # notebook.add(frame3, text='Cari Buku')
+        notebook.add(frame4, text='Peminjaman Buku')
+        notebook.add(frame5, text='Pengembalian Buku')
+        notebook.add(frame6, text ='Perpanjangan')
+        notebook.add(frame7, text ='Riwayat')
+        notebook.add(frame8, text ='Profil User')
     
         notebook.select(1)
+        notebook.hide(0)
         
     else:
         #PAGE ERROR
@@ -184,8 +197,11 @@ def login_next():
 nextButton = Button(frame1, text="Login", command=login_next)
 nextButton.place(anchor='center',relx=0.5, rely=0.75)
 
-daftar = Label(frame1, text="Belum memiliki akun? Daftar Sekarang!", font=SMALLFONT, background=backgroundDasar)
+daftar = Label(frame1, text="Belum memiliki akun? ", font=SMALLFONT, background=backgroundDasar)
 daftar.place(anchor='center', relx=0.5, rely=0.82)
+
+daftarButton = Button(frame1, text="Daftar sekarang!", command=button_pendaftaran)
+daftarButton.place(anchor='center',relx=0.65, rely=0.82)
 
 frame1.pack(fill='both', expand=True)
 
