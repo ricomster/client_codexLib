@@ -1031,14 +1031,29 @@ pendaf_nohpEntry = Entry(frame9, textvariable=pendaf_user_nohp, width = 50)
 pendaf_nohpEntry.place(anchor='w',relx=0.47, rely=0.70)
 
 def save_pendaftaran():
+    response = signUp(pendaf_user_nama.get(), pendaf_user_email.get(), pendaf_user_pass.get(), pendaf_user_alamat.get(), pendaf_user_institusi.get(), pendaf_user_nohp.get())
     print("Nama baru: ", pendaf_user_nama.get())
     print("Email baru: ", pendaf_user_email.get())
     print("Pass baru: ", pendaf_user_pass.get())
     print("Alamat baru: ", pendaf_user_alamat.get())
     print("Institusi baru: ", pendaf_user_institusi.get())
     print("No Hp baru: ", pendaf_user_nohp.get())
-    konfirmasi_ok = Label(frame9, image=logo_check, background=backgroundDasar)
-    konfirmasi_ok.place(anchor='w', relx=0.8, rely=0.55)
+
+    if(response['status']):
+        print(response['message'])
+        konfirmasi_ok = Label(frame9, image=logo_check, background=backgroundDasar)
+        konfirmasi_ok.place(anchor='w', relx=0.8, rely=0.55)
+        notebook.select(1)
+        notebook.add(frame2, text='Dashboard')
+        # notebook.add(frame3, text='Cari Buku')
+        notebook.add(frame4, text='Peminjaman Buku')
+        notebook.add(frame5, text='Pengembalian Buku')
+        notebook.add(frame6, text ='Perpanjangan')
+        notebook.add(frame7, text ='Riwayat')
+        notebook.add(frame8, text ='Profil User')
+        notebook.add(frame9, text ='Pendaftaran User Baru')
+    else:
+        print(response['message'])
 
 register_change = Button(frame9, text="Daftar", command=save_pendaftaran)
 register_change.place(anchor='center', relx=0.5, rely=0.75)
