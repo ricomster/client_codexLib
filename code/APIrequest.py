@@ -8,9 +8,10 @@ from dataVariable import *
 
 def init():
     global klien
-    global print_nama_tamu
+    global print_nama_tamu, daftar_buku
     print_nama_tamu = ''
     klien = user
+    daftar_buku = []
 
 # /////////////////////////////////////////// LOGIN PAGE ////////////////////////////////////////////////
 
@@ -82,7 +83,7 @@ def get_latest_library():
         _book = book()
         _book.isbn = i['isbn']
         _book.judul = i['judul']
-        _book.jumlahKetersedian = i['jumlahKetersediaan']
+        _book.jumlahKetersediaan = i['jumlahKetersediaan']
         _book.pengarang = i['pengarang']
         _book.penerbit = i['penerbit']
         _book.kategori = i['kategori']
