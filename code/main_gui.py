@@ -178,6 +178,7 @@ def login_next():
         # notebook.add(4)
         # notebook.add(5)
         # notebook.add(6)
+        print_nama_tamu = "Selamat datang, " + klien.nama + " di CodexLib Bandung!"
         notebook.add(frame2, text='Dashboard')
         # notebook.add(frame3, text='Cari Buku')
         notebook.add(frame4, text='Peminjaman Buku')
@@ -185,6 +186,7 @@ def login_next():
         notebook.add(frame6, text ='Perpanjangan')
         notebook.add(frame7, text ='Riwayat')
         notebook.add(frame8, text ='Profil User')
+        
     
         notebook.select(1)
         notebook.hide(0)
@@ -213,7 +215,9 @@ footer_logo.place(anchor='center',relx=0.1, rely=0.9)
 dash_logo = Label(frame2,image=logo_man,background=backgroundDasar)
 dash_logo.place(anchor='center',relx=0.5, rely=0.2)
 
-dash_text1 = Label(frame2, text="Selamat datang, Joshtein di CodexLib Bandung!", font=SMALLFONT, background=backgroundDasar)
+print_nama_tamu = ""
+
+dash_text1 = Label(frame2, text=print_nama_tamu, font=SMALLFONT, background=backgroundDasar)
 dash_text1.place(anchor='center', relx=0.5, rely=0.35)
 
 dash_text2 = Label(frame2, text="Layanan Sistem Administrasi CodexLib Bandung", font=('Muli',25,'bold italic underline'), background=backgroundDasar)
@@ -1056,6 +1060,7 @@ def save_pendaftaran():
 
             login(pendaf_user_email.get(),pendaf_user_pass.get())
             print('cek klien email: ', klien.email)
+            print_nama_tamu = "Selamat datang, " + klien.nama + " di CodexLib Bandung!"
         else:
             print(response['message'])
     else:

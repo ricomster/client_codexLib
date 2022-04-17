@@ -1,4 +1,5 @@
 from ast import Global
+from tokenize import String
 from wsgiref import headers
 import requests 
 from dataVariable import *
@@ -6,7 +7,8 @@ from dataVariable import *
 #def variable global
 
 def init():
-    global klien
+    global klien, print_nama_tamu
+    print_nama_tamu = ''
     klien = user
 
 # /////////////////////////////////////////// LOGIN PAGE ////////////////////////////////////////////////
@@ -31,6 +33,7 @@ def login(email,password):
     klien.telepon = r.json()['telepon']
     klien.alamat = r.json()['alamat']
     klien.asalInstitusi = r.json()['asalInstitusi']
+    print_nama_tamu = "Selamat datang, " + klien.nama + " di CodexLib Bandung!"
 
     if(r.status_code == 200):
         print('Login Success')
