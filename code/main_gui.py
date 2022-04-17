@@ -8,6 +8,7 @@ import requests
 import dataVariable
 from ast import Global
 from wsgiref import headers
+from validate_email import validate_email
 
 # Progres: table udah, search mechanism dan printing ke table juga udah bisa
 # opsi solusi masalah soal pinjam: input nilai aja, unique ID aja, atau pake ISBN
