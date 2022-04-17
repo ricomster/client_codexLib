@@ -1,5 +1,4 @@
 from ast import Global
-from select import KQ_FILTER_SIGNAL
 from wsgiref import headers
 import requests 
 from dataVariable import *
@@ -52,7 +51,13 @@ def signUp(nama,email,password,alamat,institusi,telepon):
              'asalInstitusi':institusi,
              'telepon':telepon}
     r = requests.post(url+routes,data=payload)
-    print(r.text)
+    
+    if(r.status_code == 200):
+        print('Signup Success')
+        return {'status':True, 'message':'Signup Success'}
+    else:
+        print("Signup Failed")
+        return {'status':False, 'message':r.json()['message']}
 
 
 def signOut():
@@ -90,11 +95,32 @@ def konfirmasi_peminjaman(email,isbn,tanggalPeminjaman,
                'tanggalPengembalian':tanggalPengembalian,
                'status':status}
     r = s.post(url+routes,data=payload)
+    if(r.status_code == 200):
+        print('Peminjaman Berhasil')
+        return {'status':True, 'message':r.json()['message']}
+    else:
+        print("Peminjaman Gagal")
+        return {'status':False, 'message':r.json()['message']}
 
 def get_riwayat(email):
-    routes = 'api/getriwayat'
+    routes = 'getriwayat'
     payload = {'email':email}
     r = s.post(url+routes,data=payload)
+    print(r)
+    peminjamans = r.json()
+
+    riwayat = []
+    for i in peminjamans:
+        _peminjaman = pinjamBuku()
+        _peminjaman.id = i['id']
+        _peminjaman.email = i['email']
+        _peminjaman.isbn = i['isbn']
+        _peminjaman.durasi = i['durasi']
+        _peminjaman.tanggalPeminjaman = i['tanggalPeminjaman']
+        _peminjaman.tanggalPengembalian = i['tanggalPengembalian']
+        _peminjaman.status = i['status']
+        riwayat.append(_peminjaman)
+    return riwayat
 
 def konfirmasi_pengembalian(idPeminjam,status,noResi,jasaEkspedisi):
     routes = 'api/sirkulasi/kembalikanbuku'
@@ -103,6 +129,12 @@ def konfirmasi_pengembalian(idPeminjam,status,noResi,jasaEkspedisi):
                'noResi':noResi,
                'jasaEkspedisi':jasaEkspedisi}
     r = s.post(url+routes,data=payload)
+    if(r.status_code == 200):
+        print('Pengembalian Berhasil')
+        return {'status':True, 'message':r.json()['message']}
+    else:
+        print("Pengembalian Gagal")
+        return {'status':False, 'message':r.json()['message']}
 
 def konfirmasi_perpanjangan(idPeminjam,durasi,tanggalPengembalian):
     routes = 'api/sirkulasi/perpanjangpeminjaman'
@@ -110,16 +142,19 @@ def konfirmasi_perpanjangan(idPeminjam,durasi,tanggalPengembalian):
                'durasi':durasi,
                'tanggalPengembalian':tanggalPengembalian}
     r = s.put(url+routes,data=payload)
+    if(r.status_code == 200):
+        print('Perpanjangan Berhasil')
+        return {'status':True, 'message':r.json()['message']}
+    else:
+        print("Perpanjangan Gagal")
+        return {'status':False, 'message':r.json()['message']}
 
 
-<<<<<<< HEAD
-# login('admin@gmail.com','Admin1234')
-=======
 init()
-# login('admin@gmail.com','pass')
->>>>>>> 2af567d41fa9f75340c1f06818dce26e263995ea
-# books = get_latest_library()
-# print(books[1].kategori)
+login('admin@gmail.com','Admin1234')
+riwayat = get_riwayat('admin@gmail.com')
+# riwayat = get_latest_library()
+print(riwayat[1].isbn)
 # signOut()
 # get_latest_library()
 

@@ -21,6 +21,7 @@ class book:
 
 class pinjamBuku:
     def __init__(self):
+        self.id = None
         self.email = None
         self.isbn = None
         self.durasi = None
