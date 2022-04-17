@@ -574,7 +574,7 @@ fr5sortable_t.place(anchor='center', relx=0.5, rely=0.987)
 
 #Form Pengembalian Buku
 def enter_no_return_buku():
-    value_no_return = no_return.get()
+    value_no_return = fr5no_return.get()
     print("Client ingin mengembalikan buku nomor:        ", value_no_return)
     buku_terpilih_pengembalian()
 
@@ -597,11 +597,11 @@ def buku_terpilih_pengembalian():
     global status_pressed_return
 
     def destroy_labels():
-        value_infobuku_judul.destroy()
-        value_infobuku_pengarang.destroy()
-        value_infobuku_isbn.destroy()
-        value_infobuku_penerbit.destroy()
-        value_infobuku_status.destroy()
+        fr5value_infobuku_judul.destroy()
+        fr5value_infobuku_pengarang.destroy()
+        fr5value_infobuku_isbn.destroy()
+        fr5value_infobuku_penerbit.destroy()
+        fr5value_infobuku_status.destroy()
         drop.destroy()
 
     if (status_pressed_return == 1):
@@ -767,7 +767,7 @@ fr6sortable_t.place(anchor='center', relx=0.5, rely=0.987)
 
 #Form Perpanjangan
 def enter_no_return_buku():
-    value_no_return = no_return.get()
+    value_no_return = fr6no_return.get()
     print("Client ingin memperpanjang buku nomor:        ", value_no_return)
     buku_terpilih_pengembalian()
 
