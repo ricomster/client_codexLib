@@ -45,7 +45,7 @@ def login(email,password):
     
 
 
-#Sign UP
+#Sign Up
 def signUp(nama,email,password,alamat,institusi,telepon):
     routes = 'auth/signup'
     payload={'nama':nama,
@@ -63,7 +63,7 @@ def signUp(nama,email,password,alamat,institusi,telepon):
         print("Signup Failed")
         return {'status':False, 'message':r.json()['message']}
 
-
+#Sign Out
 def signOut():
     routes = 'auth/signout'
     r = requests.post(url+routes)
@@ -127,7 +127,7 @@ def get_riwayat(email):
     return riwayat
 
 def konfirmasi_pengembalian(idPeminjam,status,noResi,jasaEkspedisi):
-    routes = 'api/sirkulasi/kembalikanbuku'
+    routes = 'sirkulasi/kembalikanbuku'
     payload = {'idPeminjam':idPeminjam,
                'status':status,
                'noResi':noResi,
@@ -141,7 +141,7 @@ def konfirmasi_pengembalian(idPeminjam,status,noResi,jasaEkspedisi):
         return {'status':False, 'message':r.json()['message']}
 
 def konfirmasi_perpanjangan(idPeminjam,durasi,tanggalPengembalian):
-    routes = 'api/sirkulasi/perpanjangpeminjaman'
+    routes = 'sirkulasi/perpanjangpeminjaman'
     payload = {'idPeminjam':idPeminjam,
                'durasi':durasi,
                'tanggalPengembalian':tanggalPengembalian}
@@ -151,6 +151,28 @@ def konfirmasi_perpanjangan(idPeminjam,durasi,tanggalPengembalian):
         return {'status':True, 'message':r.json()['message']}
     else:
         print("Perpanjangan Gagal")
+        return {'status':False, 'message':r.json()['message']}
+
+def change_profile(email, nama, alamat, asalInstitusi, telepon):
+    routes = 'profile/changeprofile'
+    payload = {'email': email,
+                'nama': nama,
+                'alamat': alamat,
+                'asalInstitusi': asalInstitusi,
+                'telepon': telepon}
+    r = s.put(url+routes,data=payload)
+
+    klien.nama = r.json()['nama']
+    klien.email = r.json()['email']
+    klien.telepon = r.json()['telepon']
+    klien.alamat = r.json()['alamat']
+    klien.asalInstitusi = r.json()['asalInstitusi']
+
+    if(r.status_code == 200):
+        print('Update Profile Success')
+        return {'status':True, 'message':'Update Profile Success'}
+    else:
+        print("Update Profile Failed")
         return {'status':False, 'message':r.json()['message']}
 
 def password_check(passwd):
