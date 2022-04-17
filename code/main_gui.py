@@ -1052,6 +1052,11 @@ def save_pendaftaran():
         notebook.add(frame7, text ='Riwayat')
         notebook.add(frame8, text ='Profil User')
         notebook.add(frame9, text ='Pendaftaran User Baru')
+
+        login(pendaf_user_email.get(),pendaf_user_pass.get())
+        print('cek klien email: ', klien.email)
+
+
     else:
         print(response['message'])
 
