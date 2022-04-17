@@ -2,21 +2,12 @@ from ast import Global
 from select import KQ_FILTER_SIGNAL
 from wsgiref import headers
 import requests 
-<<<<<<< HEAD
-from dataVariable import*
-=======
 from dataVariable import *
 
 #def variable global
 
 def init():
     global klien
-    klien = user
-
->>>>>>> 2af567d41fa9f75340c1f06818dce26e263995ea
-
-def init ():
-    global klien 
     klien = user
 
 # /////////////////////////////////////////// LOGIN PAGE ////////////////////////////////////////////////
