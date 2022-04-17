@@ -1,14 +1,21 @@
 from ast import Global
 from wsgiref import headers
-import requests
-from dataVariable import*
+import requests 
+from dataVariable import *
+
+#def variable global
+
+def init():
+    global klien
+    klien = user
+
 
 # /////////////////////////////////////////// LOGIN PAGE ////////////////////////////////////////////////
 
 s = requests.Session()
 
 # Authentification Login
-url = 'http://localhost:8080/api/'
+url = 'http://192.168.1.108:8080/api/'
 def login(email,password):
     # routes='/basic-auth/hubla/pass'
     global s
@@ -19,13 +26,19 @@ def login(email,password):
     cookie_params = r.cookies.items()
     print(r.text)
 
+    #Store Data Tabel Klien ke Lokal - Enrico
+    klien.nama = r.json()['nama']
+    klien.email = r.json()['email']
+    klien.telepon = r.json()['telepon']
+    klien.alamat = r.json()['alamat']
+    klien.asalInstitusi = r.json()['asalInstitusi']
+
     if(r.status_code == 200):
         print('Login Success')
         return {'status':True, 'message':'Login Success'}
     else:
         print("Login Failed")
         return {'status':False, 'message':r.json()['message']}
-    
     
 
 
@@ -99,9 +112,10 @@ def konfirmasi_perpanjangan(idPeminjam,durasi,tanggalPengembalian):
     r = s.put(url+routes,data=payload)
 
 
-login('admin@gmail.com','pass')
-books = get_latest_library()
-print(books[1].kategori)
+init()
+# login('admin@gmail.com','pass')
+# books = get_latest_library()
+# print(books[1].kategori)
 # signOut()
 # get_latest_library()
 

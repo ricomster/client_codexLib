@@ -1,6 +1,5 @@
 from codecs import namereplace_errors
 
-
 class user:
     def __init__(self):
         self.email = None
