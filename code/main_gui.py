@@ -3,6 +3,7 @@ from tkinter.ttk import *
 from PIL import ImageTk, Image
 from ttkwidgets import Table
 import json
+from APIrequest import*
 
 # Progres: table udah, search mechanism dan printing ke table juga udah bisa
 # opsi solusi masalah soal pinjam: input nilai aja, unique ID aja, atau pake ISBN
@@ -59,7 +60,7 @@ logo_forbidden = ImageTk.PhotoImage(forbidden)
 ## Inisialisasi Tabel - tabel dan data nya
 class tabel_buku:
     def __init__(self, judul, pengarang, penerbit, isbn, status):
-        self.judul = judul;
+        self.judul = judul
         self.pengarang = pengarang
         self.penerbit = penerbit
         self.isbn = isbn
@@ -156,7 +157,14 @@ passwordEntry = Entry(frame1, textvariable=password, show='*')
 passwordEntry.place(anchor='center',relx=0.54, rely=0.60) 
 
 def next():
-    notebook.select(1)
+    global token
+    r = login(username.get(),password.get())
+    if r['status']:
+        notebook.select(1)
+    else:
+        #PAGE ERROR
+        print("ERROR")
+    
 
 nextButton = Button(frame1, text="Login", command=next)
 nextButton.place(anchor='center',relx=0.5, rely=0.75)
