@@ -7,7 +7,8 @@ from dataVariable import *
 #def variable global
 
 def init():
-    global klien, print_nama_tamu
+    global klien
+    global print_nama_tamu
     print_nama_tamu = ''
     klien = user
 

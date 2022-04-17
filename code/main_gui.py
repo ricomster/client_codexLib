@@ -181,9 +181,9 @@ def login_next():
         print_nama_tamu = "Selamat datang, " + klien.nama + " di CodexLib Bandung!"
         notebook.add(frame2, text='Dashboard')
         # notebook.add(frame3, text='Cari Buku')
-        notebook.add(frame4, text='Peminjaman Buku')
-        notebook.add(frame5, text='Pengembalian Buku')
-        notebook.add(frame6, text ='Perpanjangan')
+        notebook.add(frame4, text='Cari dan Pinjam Buku')
+        notebook.add(frame6, text='Perpanjangan Buku')
+        notebook.add(frame5, text ='Pengembalian Buku')
         notebook.add(frame7, text ='Riwayat')
         notebook.add(frame8, text ='Profil User')
         
@@ -215,7 +215,19 @@ footer_logo.place(anchor='center',relx=0.1, rely=0.9)
 dash_logo = Label(frame2,image=logo_man,background=backgroundDasar)
 dash_logo.place(anchor='center',relx=0.5, rely=0.2)
 
-print_nama_tamu = ""
+print_nama_tamu = "Selamat datang di CodexLib @Bandung! "
+
+def next_caribuku():
+    notebook.select(2)
+
+def next_perpanjangbuku():
+    notebook.select(3)
+
+def next_kembalibuku():
+    notebook.select(4)
+
+def next_riwayat():
+    notebook.select(5)
 
 dash_text1 = Label(frame2, text=print_nama_tamu, font=SMALLFONT, background=backgroundDasar)
 dash_text1.place(anchor='center', relx=0.5, rely=0.35)
@@ -223,16 +235,16 @@ dash_text1.place(anchor='center', relx=0.5, rely=0.35)
 dash_text2 = Label(frame2, text="Layanan Sistem Administrasi CodexLib Bandung", font=('Muli',25,'bold italic underline'), background=backgroundDasar)
 dash_text2.place(anchor='center', relx=0.5, rely=0.42)
 
-dash_1_button = Button(frame2, image=logo_dash_1)
+dash_1_button = Button(frame2, image=logo_dash_1, command= next_caribuku)
 dash_1_button.place(anchor='center', relx=0.23, rely=0.65)
 
-dash_2_button = Button(frame2, image=logo_dash_2)
+dash_2_button = Button(frame2, image=logo_dash_2, command= next_perpanjangbuku)
 dash_2_button.place(anchor='center', relx=0.41, rely=0.65)
 
-dash_3_button = Button(frame2, image=logo_dash_3)
+dash_3_button = Button(frame2, image=logo_dash_3, command= next_kembalibuku)
 dash_3_button.place(anchor='center', relx=0.59, rely=0.65)
 
-dash_4_button = Button(frame2, image=logo_dash_4)
+dash_4_button = Button(frame2, image=logo_dash_4, command= next_riwayat)
 dash_4_button.place(anchor='center', relx=0.77, rely=0.65)
 
 frame2.pack(fill='both', expand=True)
@@ -1051,9 +1063,9 @@ def save_pendaftaran():
             notebook.select(1)
             notebook.add(frame2, text='Dashboard')
             # notebook.add(frame3, text='Cari Buku')
-            notebook.add(frame4, text='Peminjaman Buku')
-            notebook.add(frame5, text='Pengembalian Buku')
-            notebook.add(frame6, text ='Perpanjangan')
+            notebook.add(frame4, text='Cari dan Pinjam Buku')
+            notebook.add(frame6, text='Perpanjangan Buku')
+            notebook.add(frame5, text ='Pengembalian Buku')
             notebook.add(frame7, text ='Riwayat')
             notebook.add(frame8, text ='Profil User')
             notebook.add(frame9, text ='Pendaftaran User Baru')
@@ -1074,9 +1086,9 @@ register_change.place(anchor='center', relx=0.5, rely=0.75)
 notebook.add(frame1, text='Login Page')
 notebook.add(frame2, text='Dashboard')
 # notebook.add(frame3, text='Cari Buku')
-notebook.add(frame4, text='Peminjaman Buku')
-notebook.add(frame5, text='Pengembalian Buku')
-notebook.add(frame6, text ='Perpanjangan')
+notebook.add(frame4, text='Cari dan Pinjam Buku')
+notebook.add(frame6, text='Perpanjangan Buku')
+notebook.add(frame5, text ='Pengembalian Buku')
 notebook.add(frame7, text ='Riwayat')
 notebook.add(frame8, text ='Profil User')
 notebook.add(frame9, text ='Pendaftaran User Baru')
