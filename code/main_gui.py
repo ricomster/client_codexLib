@@ -167,7 +167,7 @@ def button_pendaftaran():
     notebook.hide(0)
 
 def login_next():
-    global token
+    global token, daftar_buku, print_nama_tamu
     r = login(username.get(),password.get())
 
     # print(r)
@@ -409,8 +409,17 @@ frame4_0 = Frame(frame4,width=640, height=120, style='1.TFrame')
 frame4_0.pack(side = TOP, anchor = 'e')
 
 def refresh_tabel_pencarian():
-    frame4_1.destroy()
-    frame4_1.pack(side=RIGHT, anchor = 's')
+    # frame4_1.pack(side=RIGHT, anchor = 's')
+    print('isi buku: ',len(daftar_buku))
+    if (len(daftar_buku)>0):
+        # for i in range (len(daftar_buku)):
+        #     table.delete(i)
+
+        for i in range (len(daftar_buku)):
+            table.insert('', 'end', iid=i, 
+                        values=(i+1,daftar_buku[i].judul,daftar_buku[i].pengarang,daftar_buku[i].penerbit,daftar_buku[i].isbn, daftar_buku[i].jumlahKetersediaan))
+            print('titit')
+            print(daftar_buku[i].judul,daftar_buku[i].pengarang,daftar_buku[i].penerbit,daftar_buku[i].isbn, daftar_buku[i].jumlahKetersediaan)
 
 refreshButton = Button(frame4_0, text="Refresh", command=refresh_tabel_pencarian)
 refreshButton.place(anchor='center',relx=0.05, rely=0.75)
@@ -865,30 +874,30 @@ def buku_terpilih_pengembalian():
 
 #Frame 7: Riwayat
 frame7 = Frame(notebook, width=1280, height=720, style='1.TFrame')
-footer_logo = Label(frame7,image=lib_logo_app_kecil,background=backgroundDasar)
-footer_logo.place(anchor='center',relx=0.1, rely=0.9)
+fr7footer_logo = Label(frame7,image=lib_logo_app_kecil,background=backgroundDasar)
+fr7footer_logo.place(anchor='center',relx=0.1, rely=0.9)
 
-kembali_buku_logo = Label(frame7,image=logo_riwayat,background=backgroundDasar)
-kembali_buku_logo.place(anchor='center',relx=0.1, rely=0.1)
+fr7kembali_buku_logo = Label(frame7,image=logo_riwayat,background=backgroundDasar)
+fr7kembali_buku_logo.place(anchor='center',relx=0.1, rely=0.1)
 
-return_text1 = Label(frame7, text="Riwayat Peminjaman", font=('Muli', 20, 'bold underline'), background=backgroundDasar)
-return_text1.place(anchor='w', relx=0.15, rely=0.1)
+fr7return_text1 = Label(frame7, text="Riwayat Peminjaman", font=('Muli', 20, 'bold underline'), background=backgroundDasar)
+fr7return_text1.place(anchor='w', relx=0.15, rely=0.1)
 
 
 #Frame 7_1: Untuk tabel, biar posisinya enak
 frame7_1 = Frame(frame7, width=900, height=720, style='1.TFrame')
 frame7_1.pack(side=LEFT, anchor = 'center', padx=100)
 
-sortable5 = BooleanVar(frame7_1, False)
-drag_row5 = BooleanVar(frame7_1, False)
-drag_col5 = BooleanVar(frame7_1, False)
+fr7sortable5 = BooleanVar(frame7_1, False)
+fr7drag_row5 = BooleanVar(frame7_1, False)
+fr7drag_col5 = BooleanVar(frame7_1, False)
 
-columns5 = ["No", "Judul Buku", "Penulis", "ISBN", "Tgl Peminjaman", "Tgl Pengembalian", "Status"]
-table5 = Table(frame7_1, columns=columns5, sortable=sortable5.get(), drag_cols=drag_col5.get(),
-              drag_rows=drag_row5.get(), height=20)
-for col in columns5:
-    table5.heading(col, text=col)
-    table5.column(col, width=150, stretch=True, anchor = 'center')
+fr7columns5 = ["No", "Judul Buku", "Penulis", "ISBN", "Tgl Peminjaman", "Tgl Pengembalian", "Status"]
+fr7table5 = Table(frame7_1, columns=fr7columns5, sortable=fr7sortable5.get(), drag_cols=fr7drag_col5.get(),
+              drag_rows=fr7drag_row5.get(), height=20)
+for col in fr7columns5:
+    fr7table5.heading(col, text=col)
+    fr7table5.column(col, width=150, stretch=True, anchor = 'center')
 
 # table5.column("No", width = 40, stretch=True, anchor = 'center')
 # table5.column("Judul Buku", width = 160, stretch=True, anchor = 'w')
@@ -896,7 +905,7 @@ for col in columns5:
 # table5.column("Penerbit", width = 80, stretch=True, anchor = 'w')
 
 # sort column A content as int instead of strings
-table5.column('No', type=int)
+fr7table5.column('No', type=int)
 
 #for i in range(50):
     #table.insert('', 'end', iid=i, values=(i, i) + tuple(i + 10 * j for j in range(2, 7)))
@@ -907,22 +916,22 @@ table5.column('No', type=int)
 #                         values=(i+1,judulbuku[i],nama_pengarang[i],penerbit[i],no_isbn[i], 'tersedia'))
 
 for i in range(9):
-    table5.insert('', 'end', iid=i, 
+    fr7table5.insert('', 'end', iid=i, 
                     values=(i+1,list[i].judul,list[i].pengarang,list[i].penerbit,list[i].isbn, "Overdue"))
 
 
 # add scrollbars
-sx5 = Scrollbar(frame7_1, orient='horizontal', command=table.xview)
-sy5 = Scrollbar(frame7_1, orient='vertical', command=table.yview)
-table.configure(yscrollcommand=sy5.set, xscrollcommand=sx5.set)
+sx7 = Scrollbar(frame7_1, orient='horizontal', command=table.xview)
+sy7 = Scrollbar(frame7_1, orient='vertical', command=table.yview)
+fr7table5.configure(yscrollcommand=sy7.set, xscrollcommand=sx7.set)
 
-table5.grid(sticky='ewns')
-sx5.grid(row=1, column=0, sticky='ew')
-sy5.grid(row=0, column=1, sticky='ns')
+fr7table5.grid(sticky='ewns')
+sx7.grid(row=1, column=0, sticky='ew')
+sy7.grid(row=0, column=1, sticky='ns')
 frame7_1.update_idletasks()
 
 # toggle table properties
-def toggle_sort5():
+def toggle_sort7():
     table5.config(sortable=sortable.get())
 
 def toggle_drag_col5():
@@ -931,14 +940,14 @@ def toggle_drag_col5():
 def toggle_drag_row5():
     table5.config(drag_rows=drag_row.get())
 
-sortable_t = Checkbutton(frame7_1, text='Enable Sorting', variable=sortable, command=toggle_sort5)#.pack(side='left')
-sortable_t.place(anchor='center', relx=0.5, rely=0.987)
+fr7sortable_t = Checkbutton(frame7_1, text='Enable Sorting', variable=sortable, command=toggle_sort7)#.pack(side='left')
+fr7sortable_t.place(anchor='center', relx=0.5, rely=0.987)
 
 
 #Frame 8: Profil User
 frame8 = Frame(notebook, width=1280, height=720, style='1.TFrame')
-footer_logo = Label(frame8,image=lib_logo_app_kecil,background=backgroundDasar)
-footer_logo.place(anchor='center',relx=0.1, rely=0.9)
+fr8footer_logo = Label(frame8,image=lib_logo_app_kecil,background=backgroundDasar)
+fr8footer_logo.place(anchor='center',relx=0.1, rely=0.9)
 
 user_logo = Label(frame8,image=logo_man_beard,background=backgroundDasar)
 user_logo.place(anchor='center',relx=0.1, rely=0.1)
