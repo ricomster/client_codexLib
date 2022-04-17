@@ -187,6 +187,10 @@ def login_next():
         notebook.add(frame7, text ='Riwayat')
         notebook.add(frame8, text ='Profil User')
         
+        daftar_buku = get_latest_library()
+
+        for i in daftar_buku:
+            print(i.isbn)
     
         notebook.select(1)
         notebook.hide(0)
@@ -402,6 +406,13 @@ def buku_terpilih():
 #Frame 4_0: Sisi kanan Judul
 frame4_0 = Frame(frame4,width=640, height=120, style='1.TFrame')
 frame4_0.pack(side = TOP, anchor = 'e')
+
+def refresh_tabel_pencarian():
+    frame4_1.destroy()
+    frame4_1.pack(side=RIGHT, anchor = 's')
+
+refreshButton = Button(frame1, text="Refresh", command=refresh_tabel_pencarian)
+refreshButton.place(anchor='center',relx=0.05, rely=0.75)
 
 borrow_text4 = Label(frame4_0, text="Hasil Pencarian", font=('Muli', 20, 'bold underline'), background=backgroundDasar)
 borrow_text4.place(anchor='w', relx=0.05, rely=0.55)
