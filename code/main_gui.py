@@ -3,7 +3,11 @@ from tkinter.ttk import *
 from PIL import ImageTk, Image
 from ttkwidgets import Table
 import json
-from APIrequest import*
+from APIrequest import *
+import requests 
+import dataVariable
+from ast import Global
+from wsgiref import headers
 
 # Progres: table udah, search mechanism dan printing ke table juga udah bisa
 # opsi solusi masalah soal pinjam: input nilai aja, unique ID aja, atau pake ISBN
@@ -156,17 +160,28 @@ password = StringVar()
 passwordEntry = Entry(frame1, textvariable=password, show='*')
 passwordEntry.place(anchor='center',relx=0.54, rely=0.60) 
 
-def next():
+def login_next():
     global token
     r = login(username.get(),password.get())
+
+    # print(r)
+
     if r['status']:
+        notebook.add(1)
+        notebook.add(2)
+        notebook.add(3)
+        notebook.add(4)
+        notebook.add(5)
+        notebook.add(6)
+    
         notebook.select(1)
+        
     else:
         #PAGE ERROR
         print("ERROR")
     
 
-nextButton = Button(frame1, text="Login", command=next)
+nextButton = Button(frame1, text="Login", command=login_next)
 nextButton.place(anchor='center',relx=0.5, rely=0.75)
 
 daftar = Label(frame1, text="Belum memiliki akun? Daftar Sekarang!", font=SMALLFONT, background=backgroundDasar)
@@ -201,17 +216,6 @@ dash_4_button = Button(frame2, image=logo_dash_4)
 dash_4_button.place(anchor='center', relx=0.77, rely=0.65)
 
 frame2.pack(fill='both', expand=True)
-
-# #Frame 3: Cari Buku
-# frame3 = Frame(notebook, width=1280, height=720, style='1.TFrame')
-# footer_logo = Label(frame3,image=lib_logo_app_kecil,background=backgroundDasar)
-# footer_logo.place(anchor='center',relx=0.1, rely=0.9)
-
-# cari_buku_logo = Label(frame3,image=logo_search,background=backgroundDasar)
-# cari_buku_logo.place(anchor='center',relx=0.1, rely=0.1)
-
-# search_text1 = Label(frame3, text="Pencarian Buku", font=('Muli', 20, 'bold underline'), background=backgroundDasar)
-# search_text1.place(anchor='center', relx=0.25, rely=0.1)
 
 #Frame 4: Peminjaman Buku
 frame4 = Frame(notebook, width=1280, height=720, style='1.TFrame')
@@ -1034,6 +1038,14 @@ notebook.add(frame6, text ='Perpanjangan')
 notebook.add(frame7, text ='Riwayat')
 notebook.add(frame8, text ='Profil User')
 notebook.add(frame9, text ='Pendaftaran User Baru')
+
+notebook.hide(1) #dashboard
+notebook.hide(2) #Peminjaman
+notebook.hide(3) #Pengembalian
+notebook.hide(4) #Perpanjangan
+notebook.hide(5) #Riwayat
+notebook.hide(6) #Profil User
+notebook.hide(7) #Pendaftaran User Baru
 
 
 root.mainloop()

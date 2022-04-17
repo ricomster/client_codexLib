@@ -2,7 +2,18 @@ from ast import Global
 from select import KQ_FILTER_SIGNAL
 from wsgiref import headers
 import requests 
+<<<<<<< HEAD
 from dataVariable import*
+=======
+from dataVariable import *
+
+#def variable global
+
+def init():
+    global klien
+    klien = user
+
+>>>>>>> 2af567d41fa9f75340c1f06818dce26e263995ea
 
 def init ():
     global klien 
@@ -13,7 +24,7 @@ def init ():
 s = requests.Session()
 
 # Authentification Login
-url = 'http://localhost:8080/api/'
+url = 'http://192.168.1.108:8080/api/'
 def login(email,password):
     # routes='/basic-auth/hubla/pass'
     global s
@@ -24,13 +35,19 @@ def login(email,password):
     cookie_params = r.cookies.items()
     print(r.text)
 
+    #Store Data Tabel Klien ke Lokal - Enrico
+    klien.nama = r.json()['nama']
+    klien.email = r.json()['email']
+    klien.telepon = r.json()['telepon']
+    klien.alamat = r.json()['alamat']
+    klien.asalInstitusi = r.json()['asalInstitusi']
+
     if(r.status_code == 200):
         print('Login Success')
         return {'status':True, 'message':'Login Success'}
     else:
         print("Login Failed")
         return {'status':False, 'message':r.json()['message']}
-    
     
 
 
@@ -104,7 +121,12 @@ def konfirmasi_perpanjangan(idPeminjam,durasi,tanggalPengembalian):
     r = s.put(url+routes,data=payload)
 
 
+<<<<<<< HEAD
 # login('admin@gmail.com','Admin1234')
+=======
+init()
+# login('admin@gmail.com','pass')
+>>>>>>> 2af567d41fa9f75340c1f06818dce26e263995ea
 # books = get_latest_library()
 # print(books[1].kategori)
 # signOut()
