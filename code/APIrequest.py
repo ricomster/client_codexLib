@@ -154,13 +154,13 @@ def password_check(passwd):
     SpecialSym =['$', '@', '#', '%']
     val = True
       
-    if len(passwd) < 6:
-        print('length should be at least 6')
+    if len(passwd) < 8:
+        print('length should be at least 8')
         val = False
           
-    if len(passwd) > 20:
-        print('length should be not be greater than 8')
-        val = False
+    # if len(passwd) > 20:
+    #     print('length should be not be greater than 8')
+    #     val = False
           
     if not any(char.isdigit() for char in passwd):
         print('Password should have at least one numeral')
@@ -182,6 +182,8 @@ def password_check(passwd):
 
 
 init()
+
+
 # login('admin@gmail.com','Admin1234')
 # riwayat = get_riwayat('admin@gmail.com')
 # # riwayat = get_latest_library()

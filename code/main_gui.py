@@ -1039,26 +1039,27 @@ def save_pendaftaran():
     print("Institusi baru: ", pendaf_user_institusi.get())
     print("No Hp baru: ", pendaf_user_nohp.get())
 
-    if(response['status']):
-        print(response['message'])
-        konfirmasi_ok = Label(frame9, image=logo_check, background=backgroundDasar)
-        konfirmasi_ok.place(anchor='w', relx=0.8, rely=0.55)
-        notebook.select(1)
-        notebook.add(frame2, text='Dashboard')
-        # notebook.add(frame3, text='Cari Buku')
-        notebook.add(frame4, text='Peminjaman Buku')
-        notebook.add(frame5, text='Pengembalian Buku')
-        notebook.add(frame6, text ='Perpanjangan')
-        notebook.add(frame7, text ='Riwayat')
-        notebook.add(frame8, text ='Profil User')
-        notebook.add(frame9, text ='Pendaftaran User Baru')
+    if (password_check(pendaf_user_pass.get())):
+        if(response['status']):
+            print(response['message'])
+            konfirmasi_ok = Label(frame9, image=logo_check, background=backgroundDasar)
+            konfirmasi_ok.place(anchor='w', relx=0.8, rely=0.55)
+            notebook.select(1)
+            notebook.add(frame2, text='Dashboard')
+            # notebook.add(frame3, text='Cari Buku')
+            notebook.add(frame4, text='Peminjaman Buku')
+            notebook.add(frame5, text='Pengembalian Buku')
+            notebook.add(frame6, text ='Perpanjangan')
+            notebook.add(frame7, text ='Riwayat')
+            notebook.add(frame8, text ='Profil User')
+            notebook.add(frame9, text ='Pendaftaran User Baru')
 
-        login(pendaf_user_email.get(),pendaf_user_pass.get())
-        print('cek klien email: ', klien.email)
-
-
+            login(pendaf_user_email.get(),pendaf_user_pass.get())
+            print('cek klien email: ', klien.email)
+        else:
+            print(response['message'])
     else:
-        print(response['message'])
+        print()
 
 register_change = Button(frame9, text="Daftar", command=save_pendaftaran)
 register_change.place(anchor='center', relx=0.5, rely=0.75)
