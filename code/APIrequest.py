@@ -1,7 +1,12 @@
 from ast import Global
+from select import KQ_FILTER_SIGNAL
 from wsgiref import headers
-import requests
+import requests 
 from dataVariable import*
+
+def init ():
+    global klien 
+    klien = user
 
 # /////////////////////////////////////////// LOGIN PAGE ////////////////////////////////////////////////
 
@@ -99,9 +104,9 @@ def konfirmasi_perpanjangan(idPeminjam,durasi,tanggalPengembalian):
     r = s.put(url+routes,data=payload)
 
 
-login('admin@gmail.com','pass')
-books = get_latest_library()
-print(books[1].kategori)
+# login('admin@gmail.com','Admin1234')
+# books = get_latest_library()
+# print(books[1].kategori)
 # signOut()
 # get_latest_library()
 
