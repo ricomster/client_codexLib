@@ -8,7 +8,8 @@ from dataVariable import *
 
 def init():
     global klien
-    global print_nama_tamu, daftar_buku
+    global print_nama_tamu, daftar_buku, load_data
+    load_data = 0
     print_nama_tamu = ''
     klien = user
     daftar_buku = []
