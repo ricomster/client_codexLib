@@ -18,27 +18,28 @@ def init():
 s = requests.Session()
 
 # Authentification Login
-url = 'http://192.168.1.105:8080/api/'
+# url = 'http://192.168.1.105:8080/api/'
+url = 'http://localhost:8080/api/'
+
 def login(email,password):
-    # routes='/basic-auth/hubla/pass'
     global s
     payload={'email':email,'password':password}
     routes='auth/signin'
     s = requests.Session()
     r = s.post(url+routes,data=payload)
     cookie_params = r.cookies.items()
-    print(r.text)
-
-    #Store Data Tabel Klien ke Lokal - Enrico
-    klien.nama = r.json()['nama']
-    klien.email = r.json()['email']
-    klien.telepon = r.json()['telepon']
-    klien.alamat = r.json()['alamat']
-    klien.asalInstitusi = r.json()['asalInstitusi']
-    print_nama_tamu = "Selamat datang, " + klien.nama + " di CodexLib Bandung!"
+    # print(r.text)
 
     if(r.status_code == 200):
         print('Login Success')
+        #Store Data Tabel Klien ke Lokal - Enrico
+        klien.nama = r.json()['nama']
+        klien.email = r.json()['email']
+        klien.telepon = r.json()['telepon']
+        klien.alamat = r.json()['alamat']
+        klien.asalInstitusi = r.json()['asalInstitusi']
+        print_nama_tamu = "Selamat datang, " + klien.nama + " di CodexLib Bandung!"
+
         return {'status':True, 'message':'Login Success'}
     else:
         print("Login Failed")
@@ -76,19 +77,24 @@ def signOut():
 def get_latest_library():
     routes = 'library/getlibrary'
     r = s.get(url+routes)
-    books = r.json()
-
-    books_lib = []
-    for i in books:
-        _book = book()
-        _book.isbn = i['isbn']
-        _book.judul = i['judul']
-        _book.jumlahKetersediaan = i['jumlahKetersediaan']
-        _book.pengarang = i['pengarang']
-        _book.penerbit = i['penerbit']
-        _book.kategori = i['kategori']
-        books_lib.append(_book)
-    return books_lib
+    
+    print(r.status_code)
+    
+    if(r.status_code == 200):
+        books = r.json()
+        books_lib = []
+        for i in books:
+            _book = book()
+            _book.isbn = i['isbn']
+            _book.judul = i['judul']
+            _book.jumlahKetersediaan = i['jumlahKetersediaan']
+            _book.pengarang = i['pengarang']
+            _book.penerbit = i['penerbit']
+            _book.kategori = i['kategori']
+            books_lib.append(_book)
+        return books_lib
+    else:
+        print(r.text)
 
 def konfirmasi_peminjaman(email,isbn,tanggalPeminjaman,
                           durasi, tanggalPengembalian, status):
@@ -111,21 +117,24 @@ def get_riwayat(email):
     routes = 'getriwayat'
     payload = {'email':email}
     r = s.post(url+routes,data=payload)
-    print(r)
-    peminjamans = r.json()
-
-    riwayat = []
-    for i in peminjamans:
-        _peminjaman = pinjamBuku()
-        _peminjaman.id = i['id']
-        _peminjaman.email = i['email']
-        _peminjaman.isbn = i['isbn']
-        _peminjaman.durasi = i['durasi']
-        _peminjaman.tanggalPeminjaman = i['tanggalPeminjaman']
-        _peminjaman.tanggalPengembalian = i['tanggalPengembalian']
-        _peminjaman.status = i['status']
-        riwayat.append(_peminjaman)
-    return riwayat
+    
+    if(r.status_code == 200):
+        peminjamans = r.json()
+        riwayat = []
+        for i in peminjamans:
+            _peminjaman = pinjamBuku()
+            _peminjaman.id = i['id']
+            _peminjaman.email = i['email']
+            _peminjaman.isbn = i['isbn']
+            _peminjaman.durasi = i['durasi']
+            _peminjaman.tanggalPeminjaman = i['tanggalPeminjaman']
+            _peminjaman.tanggalPengembalian = i['tanggalPengembalian']
+            _peminjaman.status = i['status']
+            riwayat.append(_peminjaman)
+        return riwayat
+    else:
+        print(r.text)
+ 
 
 def konfirmasi_pengembalian(idPeminjam,status,noResi,jasaEkspedisi):
     routes = 'sirkulasi/kembalikanbuku'
@@ -163,14 +172,16 @@ def change_profile(email, nama, alamat, asalInstitusi, telepon):
                 'telepon': telepon}
     r = s.put(url+routes,data=payload)
 
-    klien.nama = r.json()['nama']
-    klien.email = r.json()['email']
-    klien.telepon = r.json()['telepon']
-    klien.alamat = r.json()['alamat']
-    klien.asalInstitusi = r.json()['asalInstitusi']
+    
 
     if(r.status_code == 200):
         print('Update Profile Success')
+        klien.nama = r.json()['nama']
+        klien.email = r.json()['email']
+        klien.telepon = r.json()['telepon']
+        klien.alamat = r.json()['alamat']
+        klien.asalInstitusi = r.json()['asalInstitusi']
+
         return {'status':True, 'message':'Update Profile Success'}
     else:
         print("Update Profile Failed")
@@ -211,11 +222,19 @@ def password_check(passwd):
 init()
 
 
-# login('admin@gmail.com','Admin1234')
-# riwayat = get_riwayat('admin@gmail.com')
-# # riwayat = get_latest_library()
-# print(riwayat[1].isbn)
-# signOut()
+login('admin1@gmail.com','Admin1234')
+riwayat = get_riwayat('admin1@gmail.com')
+print("\nRiwayat Peminjaman")
+for obj in riwayat:
+    print(obj.isbn, obj.tanggalPeminjaman, obj.durasi, obj.tanggalPengembalian, sep = " ")
+
+signOut()
+riwayat = get_riwayat('admin1@gmail.com')
+# lib_buku = get_latest_library()
+print("\nLibrary")
+# for obj in lib_buku:
+#     print(obj.isbn, obj.judul, obj.jumlahKetersediaan, obj.pengarang, obj.penerbit, sep = " ")
+
 # get_latest_library()
 
 
