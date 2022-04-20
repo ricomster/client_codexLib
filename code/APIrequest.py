@@ -8,7 +8,8 @@ from dataVariable import *
 
 def init():
     global klien
-    global print_nama_tamu, daftar_buku
+    global print_nama_tamu, daftar_buku, load_data
+    load_data = 0
     print_nama_tamu = ''
     klien = user
     daftar_buku = []
@@ -18,6 +19,7 @@ def init():
 s = requests.Session()
 
 # Authentification Login
+
 # url = 'http://192.168.1.105:8080/api/'
 url = 'http://localhost:8080/api/'
 
