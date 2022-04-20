@@ -75,6 +75,7 @@ class tabel_buku:
         self.kategori = kategori
 
 list = []
+list_peminjaman = []
 
 judulbuku = ["Kemampuan berpikir tingkat tinggi", 
 "Buku ajar fisika radiasi", 
@@ -135,10 +136,6 @@ kategori = ["Sains",
 "Sains", 
 "Sains", 
 "Sains","Romansa","Sains Fiksi"]
-
-for i in range(11):
-    list.append(tabel_buku(i+1,judulbuku[i], nama_pengarang[i], penerbit[i],no_isbn[i], 'tersedia',kategori[i]))
-
 
 # create frame style
 LARGEFONT =("Muli", 35)
@@ -221,6 +218,12 @@ def login_next():
         #PAGE ERROR
         print("ERROR")
     
+#Assign Dummy Data
+for i in range(11):
+    list.append(tabel_buku(i+1,judulbuku[i], nama_pengarang[i], penerbit[i],no_isbn[i], 'tersedia',kategori[i]))
+    
+    if ((i%2)==0):
+        list_peminjaman.append(pinjamBuku(i,'joshtein@gmail.com',no_isbn[i], 7, "2022-04-13", "2022-04-20", 'Sedang dipinjam'))
 
 nextButton = Button(frame1, text="Login", command=login_next)
 nextButton.place(anchor='center',relx=0.5, rely=0.75)
@@ -593,7 +596,7 @@ sortable_t.place(anchor='center', relx=0.5, rely=0.987)
 
 #########################################################################
 
-#Frame 5: Pengembalian dan Perpanjangan Buku
+#Frame 5: Pengembalian Buku
 frame5 = Frame(notebook, width=1280, height=720, style='1.TFrame')
 fr5footer_logo = Label(frame5,image=lib_logo_app_kecil,background=backgroundDasar)
 fr5footer_logo.place(anchor='center',relx=0.1, rely=0.9)
@@ -618,7 +621,7 @@ sortable5 = BooleanVar(frame5_1, False)
 drag_row5 = BooleanVar(frame5_1, False)
 drag_col5 = BooleanVar(frame5_1, False)
 
-columns5 = ["No", "Judul Buku", "Penulis", "ISBN", "Tgl Pengembalian", "Status"]
+columns5 = ["ID", "Judul Buku", "ISBN", "Tgl Peminjaman", "Tgl Pengembalian", "Status"]
 table5 = Table(frame5_1, columns=columns5, sortable=sortable5.get(), drag_cols=drag_col5.get(),
               drag_rows=drag_row5.get(), height=20)
 for col in columns5:
@@ -641,9 +644,24 @@ table5.column('No', type=int)
 #         table.insert('', 'end', iid=i, 
 #                         values=(i+1,judulbuku[i],nama_pengarang[i],penerbit[i],no_isbn[i], 'tersedia'))
 
-for i in range(9):
+for i in range(len(list_peminjaman)):
+    no_id_buku = list_peminjaman[i].id
     table5.insert('', 'end', iid=i, 
-                    values=(i+1,list[i].judul,list[i].pengarang,list[i].penerbit,list[i].isbn, list[i].status))
+                    values=(no_id_buku,list[no_id_buku-1],list_peminjaman[i].isbn,list_peminjaman[i].tanggalPeminjaman,list_peminjaman[i].tanggalPengembalian, list_peminjaman[i].status))
+
+
+# if ((i%2)==0):
+#         list_peminjaman.append(pinjamBuku(i,klien.email,no_isbn[i], 7, "2022-04-13", "2022-04-20", 'Sedang dipinjam'))
+
+# class pinjamBuku:
+#     def __init__(self):
+#         self.id = None
+#         self.email = None
+#         self.isbn = None
+#         self.durasi = None
+#         self.tanggalPeminjaman = None
+#         self.tanggalPengembalian = None
+#         self.status = None
 
 
 # add scrollbars
@@ -814,7 +832,7 @@ drag_col6 = BooleanVar(frame6_1, False)
 columns6 = ["No", "Judul Buku", "Penulis", "ISBN", "Tgl Pengembalian", "Status"]
 table6 = Table(frame6_1, columns=columns6, sortable=sortable6.get(), drag_cols=drag_col6.get(),
               drag_rows=drag_row5.get(), height=20)
-for col in columns5:
+for col in columns6:
     table6.heading(col, text=col)
     table6.column(col, width=100, stretch=True, anchor = 'center')
 
@@ -1211,13 +1229,13 @@ notebook.add(frame7, text ='Riwayat')
 notebook.add(frame8, text ='Profil User')
 notebook.add(frame9, text ='Pendaftaran User Baru')
 
-# notebook.hide(1) #dashboard
-# notebook.hide(2) #Peminjaman
-# notebook.hide(3) #Pengembalian
-# notebook.hide(4) #Perpanjangan
-# notebook.hide(5) #Riwayat
-# notebook.hide(6) #Profil User
-# notebook.hide(7) #Pendaftaran User Baru
+notebook.hide(1) #dashboard
+notebook.hide(2) #Peminjaman
+notebook.hide(3) #Pengembalian
+notebook.hide(4) #Perpanjangan
+notebook.hide(5) #Riwayat
+notebook.hide(6) #Profil User
+notebook.hide(7) #Pendaftaran User Baru
 
 
 root.mainloop()
