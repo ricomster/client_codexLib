@@ -306,12 +306,18 @@ def enter_judul_buku():
 
     for item in table.get_children():
              table.delete(item)
-             
-    for i in range (len(list)):
-        if ((value_search_judul.lower() in list[i].judul) or (value_search_judul in list[i].judul) or (value_search_judul.capitalize() in list[i].judul)):
+    
+    for i in range (len(daftar_buku)):
+        if ((value_search_judul.lower() in daftar_buku[i].judul) or (value_search_judul in daftar_buku[i].judul) or (value_search_judul.capitalize() in daftar_buku[i].judul)):
             table.insert('', 'end', iid=i, 
-                        values=(i+1,list[i].judul,list[i].pengarang,list[i].penerbit,list[i].isbn, 'list[i].jumlahKetersediaan'))
-            print(list[i].judul,list[i].pengarang,list[i].penerbit,list[i].isbn, 'list[i].jumlahKetersediaan')
+                        values=(i+1,daftar_buku[i].judul,daftar_buku[i].pengarang,daftar_buku[i].penerbit,daftar_buku[i].isbn, daftar_buku[i].jumlahKetersediaan))
+            print(daftar_buku[i].judul,daftar_buku[i].pengarang,daftar_buku[i].penerbit,daftar_buku[i].isbn, daftar_buku[i].jumlahKetersediaan)
+
+    # for i in range (len(list)):
+    #     if ((value_search_judul.lower() in list[i].judul) or (value_search_judul in list[i].judul) or (value_search_judul.capitalize() in list[i].judul)):
+    #         table.insert('', 'end', iid=i, 
+    #                     values=(i+1,list[i].judul,list[i].pengarang,list[i].penerbit,list[i].isbn, 'list[i].jumlahKetersediaan'))
+    #         print(list[i].judul,list[i].pengarang,list[i].penerbit,list[i].isbn, 'list[i].jumlahKetersediaan')
 
     load_data = 1
 
@@ -323,16 +329,21 @@ def enter_kategori_buku():
     for item in table.get_children():
              table.delete(item)
              
-    for i in range (len(list)):
-        if (value_search_kategori in list[i].kategori):
+    for i in range (len(daftar_buku)):
+        if (value_search_kategori in daftar_buku[i].kategori):
             table.insert('', 'end', iid=i, 
-                        values=(i+1,list[i].judul,list[i].pengarang,list[i].penerbit,list[i].isbn, 'list[i].jumlahKetersediaan'))
-            print(list[i].judul,list[i].pengarang,list[i].penerbit,list[i].isbn, 'list[i].jumlahKetersediaan')
+                        values=(i+1,daftar_buku[i].judul,daftar_buku[i].pengarang,daftar_buku[i].penerbit,daftar_buku[i].isbn, daftar_buku[i].jumlahKetersediaan))
+            print(daftar_buku[i].judul,daftar_buku[i].pengarang,daftar_buku[i].penerbit,daftar_buku[i].isbn, daftar_buku[i].jumlahKetersediaan)
+
+    # for i in range (len(list)):
+    #     if (value_search_kategori in list[i].kategori):
+    #         table.insert('', 'end', iid=i, 
+    #                     values=(i+1,list[i].judul,list[i].pengarang,list[i].penerbit,list[i].isbn, 'list[i].jumlahKetersediaan'))
+    #         print(list[i].judul,list[i].pengarang,list[i].penerbit,list[i].isbn, 'list[i].jumlahKetersediaan')
     
     load_data = 1
 
-
-options_kategori= ["pilih kategori","Sains","Sains Fiksi", "Romansa"]
+options_kategori= ["pilih kategori","Sains","Fiksi", "Romansa", "Anak"]
 # datatype of menu text
 search_kategori = StringVar()
 
@@ -377,19 +388,19 @@ button_pinjam.place(anchor='w', relx=0.34, rely=0.40)
 def buku_terpilih(id_buku):
     global status_pressed
 
-    def destroy_labels():
-        value_infobuku_judul.destroy()
-        value_infobuku_pengarang.destroy()
-        value_infobuku_isbn.destroy()
-        value_infobuku_penerbit.destroy()
-        value_infobuku_status.destroy()
-        drop.destroy()
+    # def destroy_labels():
+    #     value_infobuku_judul.destroy()
+    #     value_infobuku_pengarang.destroy()
+    #     value_infobuku_isbn.destroy()
+    #     value_infobuku_penerbit.destroy()
+    #     value_infobuku_status.destroy()
+    #     drop.destroy()
 
-    if (status_pressed == 1):
-        #destroy_labels()
-        print("not 1st try")
-    else:
-        print("1st try")
+    # if (status_pressed == 1):
+    #     #destroy_labels()
+    #     print("not 1st try")
+    # else:
+    #     print("1st try")
         
         
     #global status_pressed 
@@ -414,19 +425,24 @@ def buku_terpilih(id_buku):
     infobuku_status= Label(frame4, text="Status", font=('Muli', 12, 'bold'), background=backgroundDasar)
     infobuku_status.place(anchor='w', relx=0.08, rely=0.64)
 
-    value_infobuku_judul= Label(frame4, text=list[id_buku-1].judul, font=('Muli', 12), background='#dedad9')
+    value_infobuku_judul= Label(frame4, text=daftar_buku[id_buku-1].judul, font=('Muli', 12), background='#dedad9')
     value_infobuku_judul.place(anchor='w', relx=0.2, rely=0.48)
 
-    value_infobuku_pengarang= Label(frame4, text=list[id_buku-1].pengarang, font=('Muli', 12), background='#dedad9')
+    value_infobuku_pengarang= Label(frame4, text=daftar_buku[id_buku-1].pengarang, font=('Muli', 12), background='#dedad9')
     value_infobuku_pengarang.place(anchor='w', relx=0.2, rely=0.52)
     
-    value_infobuku_isbn= Label(frame4, text=list[id_buku-1].isbn, font=('Muli', 12), background='#dedad9')
+    value_infobuku_isbn= Label(frame4, text=daftar_buku[id_buku-1].isbn, font=('Muli', 12), background='#dedad9')
     value_infobuku_isbn.place(anchor='w', relx=0.2, rely=0.56)
     
-    value_infobuku_penerbit= Label(frame4, text=list[id_buku-1].penerbit, font=('Muli', 12), background='#dedad9')
+    value_infobuku_penerbit= Label(frame4, text=daftar_buku[id_buku-1].penerbit, font=('Muli', 12), background='#dedad9')
     value_infobuku_penerbit.place(anchor='w', relx=0.2, rely=0.60)
 
-    value_infobuku_status= Label(frame4, text=list[id_buku-1].status, font=('Muli', 12), background='#dedad9')
+    if(daftar_buku[id_buku-1].jumlahKetersediaan>0):
+        status_ketersediaan = "Tersedia"
+    else:
+        status_ketersediaan = "Tidak Tersedia"
+
+    value_infobuku_status= Label(frame4, text=status_ketersediaan, font=('Muli', 12), background='#dedad9')
     value_infobuku_status.place(anchor='w', relx=0.2, rely=0.64)
 
     #Form Keperluan Peminjaman
@@ -441,22 +457,23 @@ def buku_terpilih(id_buku):
     clicked = StringVar()
     
     # initial menu text
-    clicked.set("pilih durasi")
+    clicked.set("7 hari")
 
     drop = OptionMenu( frame4 , clicked , *options )
     drop.place(anchor='w', relx=0.2, rely=0.71)
 
-    def konfirmasi_pinjam_buku(id_buku):
+    def konfirmasi_pinjam_buku():
+        value_no_pinjam = no_pinjam.get()
+        id_buku = int(value_no_pinjam)
         value_no_pinjam = no_pinjam.get()
         print("Client konfirmasi meminjam buku nomor:   ", value_no_pinjam)
-        konfirmasi_ok = Label(frame4, image=logo_check, background=backgroundDasar)
-        konfirmasi_ok.place(anchor='w', relx=0.35, rely=0.75)
-        value_infobuku_judul.destroy()
-        value_infobuku_pengarang.destroy()
-        value_infobuku_isbn.destroy()   
-        value_infobuku_penerbit.destroy()
-        value_infobuku_status.destroy()
-        drop.destroy()
+
+        # value_infobuku_judul.destroy()
+        # value_infobuku_pengarang.destroy()
+        # value_infobuku_isbn.destroy()   
+        # value_infobuku_penerbit.destroy()
+        # value_infobuku_status.destroy()
+        # drop.destroy()
 
         #Waktu Sekarang
         now = datetime.now()
@@ -472,7 +489,22 @@ def buku_terpilih(id_buku):
 
             print(current, "+7 jadi", next_week)
 
-            konfirmasi_peminjaman(klien.email,list[id_buku-1].isbn,current, 7, next_week, 'Sedang dikirim')
+            r = konfirmasi_peminjaman(klien.email,daftar_buku[id_buku-1].isbn,current, 7, next_week, 'Sedang dikirim')
+
+            if r['status']:
+                konfirmasi_ok = Label(frame4, image=logo_check, background=backgroundDasar)
+                konfirmasi_ok.place(anchor='w', relx=0.35, rely=0.75)
+
+                pesan_berhasil = Label(frame4, text="Peminjaman Berhasil", font=('Muli', 12, 'bold'), background=backgroundDasar)
+                pesan_berhasil.place(anchor='w', relx=0.35, rely=0.85)
+            else:
+                konfirmasi_not_ok = Label(frame4, image=logo_forbidden, background=backgroundDasar)
+                konfirmasi_not_ok.place(anchor='w', relx=0.35, rely=0.75)
+
+                pesan_gagal = Label(frame4, text="Peminjaman Gagal", font=('Muli', 12, 'bold'), background=backgroundDasar)
+                pesan_gagal.place(anchor='w', relx=0.35, rely=0.85)
+
+            print('isi r', r['message'])
         
         elif(clicked.get()=="14 hari"):
             print("durasi peminjaman 14 hari")
@@ -486,11 +518,32 @@ def buku_terpilih(id_buku):
 
             print(current, "+14 jadi", next_week)
 
-            konfirmasi_peminjaman(klien.email,list[id_buku-1].isbn,current, 14, next_week, 'Sedang dikirim')
+            r = konfirmasi_peminjaman(klien.email,daftar_buku[id_buku-1].isbn,current, 14, next_week, 'Sedang dikirim')
 
+            if r['status']:
+                konfirmasi_ok = Label(frame4, image=logo_check, background=backgroundDasar)
+                konfirmasi_ok.place(anchor='w', relx=0.35, rely=0.75)
+
+                pesan_berhasil = Label(frame4, text="Peminjaman Berhasil", font=('Muli', 12, 'bold'), background=backgroundDasar)
+                pesan_berhasil.place(anchor='w', relx=0.35, rely=0.85)
+            else:
+                konfirmasi_not_ok = Label(frame4, image=logo_forbidden, background=backgroundDasar)
+                konfirmasi_not_ok.place(anchor='w', relx=0.35, rely=0.75)
+
+                pesan_gagal = Label(frame4, text="Peminjaman Gagal", font=('Muli', 12, 'bold'), background=backgroundDasar)
+                pesan_gagal.place(anchor='w', relx=0.35, rely=0.85)
+            
+            print('isi r', r['message'])
+            
         else:
             print("invalid duration")
-        
+
+            konfirmasi_not_ok = Label(frame4, image=logo_forbidden, background=backgroundDasar)
+            konfirmasi_not_ok.place(anchor='w', relx=0.35, rely=0.75)
+
+            pesan_gagal = Label(frame4, text="Pilih durasi terlebih dahulu", font=('Muli', 12, 'bold'), background=backgroundDasar)
+            pesan_gagal.place(anchor='w', relx=0.35, rely=0.85)
+
     button_pinjam = Button(frame4, text="Konfirmasi Peminjaman", command=konfirmasi_pinjam_buku)
     button_pinjam.place(anchor='w', relx=0.2, rely=0.75)
 
@@ -501,24 +554,38 @@ frame4_0.pack(side = TOP, anchor = 'e')
 
 def refresh_tabel_pencarian():
     # frame4_1.pack(side=RIGHT, anchor = 's')
-    global load_data
-    print('isi buku: ',len(list))
+    global load_data, daftar_buku
+    print('isi buku: ',len(daftar_buku))
     if (load_data == 1):
         for item in table.get_children():
              table.delete(item)
-             
+        
+        daftar_buku = get_latest_library()
+
+        for i in range (len(daftar_buku)):
+            table.insert('', 'end', iid=i, 
+                        values=(i+1,daftar_buku[i].judul,daftar_buku[i].pengarang,daftar_buku[i].penerbit,daftar_buku[i].isbn, daftar_buku[i].jumlahKetersediaan))
+            print(daftar_buku[i].judul,daftar_buku[i].pengarang,daftar_buku[i].penerbit,daftar_buku[i].isbn, daftar_buku[i].jumlahKetersediaan)
+        
         # for i in range (len(list)):
         #     table.insert('', 'end', iid=i, 
         #                 values=(i+1,list[i].judul,list[i].pengarang,list[i].penerbit,list[i].isbn, 'list[i].jumlahKetersediaan'))
         #     print(list[i].judul,list[i].pengarang,list[i].penerbit,list[i].isbn, 'list[i].jumlahKetersediaan')
-        load_data = 0
+        #load_data = 0
     
     elif(load_data == 0):
-        for i in range (len(list)):
+        for i in range (len(daftar_buku)):
             table.insert('', 'end', iid=i, 
-                        values=(i+1,list[i].judul,list[i].pengarang,list[i].penerbit,list[i].isbn, "list[i].jumlahKetersediaan"))
-            print(list[i].judul,list[i].pengarang,list[i].penerbit,list[i].isbn, 'list[i].jumlahKetersediaan')
+                        values=(i+1,daftar_buku[i].judul,daftar_buku[i].pengarang,daftar_buku[i].penerbit,daftar_buku[i].isbn, daftar_buku[i].jumlahKetersediaan))
+            print(daftar_buku[i].judul,daftar_buku[i].pengarang,daftar_buku[i].penerbit,daftar_buku[i].isbn, daftar_buku[i].jumlahKetersediaan)
             load_data = 1
+
+        # for i in range (len(list)):
+        #     table.insert('', 'end', iid=i, 
+        #                 values=(i+1,list[i].judul,list[i].pengarang,list[i].penerbit,list[i].isbn, "list[i].jumlahKetersediaan"))
+        #     print(list[i].judul,list[i].pengarang,list[i].penerbit,list[i].isbn, 'list[i].jumlahKetersediaan')
+        #     load_data = 1
+
 
 
 refreshButton = Button(frame4_0, text="Refresh", command=refresh_tabel_pencarian)
@@ -535,7 +602,7 @@ sortable = BooleanVar(frame4_1, False)
 drag_row = BooleanVar(frame4_1, False)
 drag_col = BooleanVar(frame4_1, False)
 
-columns = ["No", "Judul Buku", "Penulis", "Penerbit", "ISBN", "Status"]
+columns = ["No", "Judul Buku", "Penulis", "Penerbit", "ISBN", "Jumlah"]
 table = Table(frame4_1, columns=columns, sortable=sortable.get(), drag_cols=drag_col.get(),
               drag_rows=drag_row.get(), height=25)
 for col in columns:
@@ -543,9 +610,10 @@ for col in columns:
     table.column(col, width=100, stretch=True, anchor = 'w')
 
 table.column("No", width = 40, stretch=True, anchor = 'center')
-table.column("Judul Buku", width = 160, stretch=True, anchor = 'w')
+table.column("Judul Buku", width = 200, stretch=True, anchor = 'w')
 table.column("Penulis", width = 120, stretch=True, anchor = 'w')
 table.column("Penerbit", width = 80, stretch=True, anchor = 'w')
+table.column("Jumlah", width = 60, stretch=True, anchor = 'center')
 
 # sort column A content as int instead of strings
 table.column('No', type=int)
@@ -721,7 +789,7 @@ def buku_terpilih_pengembalian():
 
     if (status_pressed_return == 1):
         #destroy_labels()
-        print("not 1st try")
+        print("not 1st try------------")
     else:
         print("1st try")
         status_pressed_return = 1
@@ -881,10 +949,10 @@ fr6sortable_t = Checkbutton(frame6_1, text='Enable Sorting', variable=sortable, 
 fr6sortable_t.place(anchor='center', relx=0.5, rely=0.987)
 
 #Form Perpanjangan
-def enter_no_return_buku():
+def enter_no_perpanjang_buku():
     value_no_return = fr6no_return.get()
     print("Client ingin memperpanjang buku nomor:        ", value_no_return)
-    buku_terpilih_pengembalian()
+    buku_terpilih_perpanjang()
 
 fr6form_pengembalian= Label(frame6, text="Form Perpanjangan Peminjaman Buku", font=('Muli', 14, 'bold'), background=backgroundDasar)
 fr6form_pengembalian.place(anchor='w', relx=0.08, rely=0.20)
@@ -896,12 +964,12 @@ fr6no_return = StringVar()
 fr6nomorEntry = Entry(frame6, textvariable=fr6no_return, width = 50)
 fr6nomorEntry.place(anchor='w',relx=0.08, rely=0.30)
 
-fr6button_return = Button(frame6, text="Cek", command=enter_no_return_buku)
+fr6button_return = Button(frame6, text="Cek", command=enter_no_perpanjang_buku)
 fr6button_return.place(anchor='w', relx=0.34, rely=0.30)
 
 status_pressed_return = 0
 
-def buku_terpilih_pengembalian():
+def buku_terpilih_perpanjang():
     global status_pressed_return
 
     def destroy_labels():
@@ -1229,13 +1297,13 @@ notebook.add(frame7, text ='Riwayat')
 notebook.add(frame8, text ='Profil User')
 notebook.add(frame9, text ='Pendaftaran User Baru')
 
-notebook.hide(1) #dashboard
-notebook.hide(2) #Peminjaman
-notebook.hide(3) #Pengembalian
-notebook.hide(4) #Perpanjangan
-notebook.hide(5) #Riwayat
-notebook.hide(6) #Profil User
-notebook.hide(7) #Pendaftaran User Baru
+# notebook.hide(1) #dashboard
+# notebook.hide(2) #Peminjaman
+# notebook.hide(3) #Pengembalian
+# notebook.hide(4) #Perpanjangan
+# notebook.hide(5) #Riwayat
+# notebook.hide(6) #Profil User
+# notebook.hide(7) #Pendaftaran User Baru
 
 
 root.mainloop()
