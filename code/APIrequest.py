@@ -8,11 +8,13 @@ from dataVariable import *
 
 def init():
     global klien
-    global print_nama_tamu, daftar_buku, load_data
+    global print_nama_tamu, daftar_buku, load_data, daftar_peminjaman, detailBukuDikembalikan
     load_data = 0
     print_nama_tamu = ''
-    klien = user
+    klien = user()
     daftar_buku = []
+    daftar_peminjaman = []
+    detailBukuDikembalikan = pinjamBuku()
 
 # /////////////////////////////////////////// LOGIN PAGE ////////////////////////////////////////////////
 
@@ -30,7 +32,7 @@ def login(email,password):
     s = requests.Session()
     r = s.post(url+routes,data=payload)
     cookie_params = r.cookies.items()
-    # print(r.text)
+    print(r.text)
 
     if(r.status_code == 200):
         print('Login Success')
@@ -41,6 +43,7 @@ def login(email,password):
         klien.alamat = r.json()['alamat']
         klien.asalInstitusi = r.json()['asalInstitusi']
         print_nama_tamu = "Selamat datang, " + klien.nama + " di CodexLib Bandung!"
+        print(print_nama_tamu)
 
         return {'status':True, 'message':'Login Success'}
     else:
@@ -152,9 +155,9 @@ def konfirmasi_pengembalian(idPeminjam,status,noResi,jasaEkspedisi):
         print("Pengembalian Gagal")
         return {'status':False, 'message':r.json()['message']}
 
-def konfirmasi_perpanjangan(idPeminjam,durasi,tanggalPengembalian):
+def konfirmasi_perpanjangan(idPeminjaman,durasi,tanggalPengembalian):
     routes = 'sirkulasi/perpanjangpeminjaman'
-    payload = {'idPeminjam':idPeminjam,
+    payload = {'idPeminjaman':idPeminjaman,
                'durasi':durasi,
                'tanggalPengembalian':tanggalPengembalian}
     r = s.put(url+routes,data=payload)
@@ -188,6 +191,14 @@ def change_profile(email, nama, alamat, asalInstitusi, telepon):
     else:
         print("Update Profile Failed")
         return {'status':False, 'message':r.json()['message']}
+
+
+
+
+
+
+
+
 
 def password_check(passwd):
       
@@ -225,15 +236,15 @@ init()
 
 
 login('admin1@gmail.com','Admin1234')
-riwayat = get_riwayat('admin1@gmail.com')
-print("\nRiwayat Peminjaman")
-for obj in riwayat:
-    print(obj.isbn, obj.tanggalPeminjaman, obj.durasi, obj.tanggalPengembalian, sep = " ")
+# riwayat = get_riwayat('admin1@gmail.com')
+# print("\nRiwayat Peminjaman")
+# for obj in riwayat:
+#     print(obj.isbn, obj.tanggalPeminjaman, obj.durasi, obj.tanggalPengembalian, sep = " ")
 
-signOut()
-riwayat = get_riwayat('admin1@gmail.com')
+# signOut()
+# riwayat = get_riwayat('admin1@gmail.com')
 # lib_buku = get_latest_library()
-print("\nLibrary")
+# print("\nLibrary")
 # for obj in lib_buku:
 #     print(obj.isbn, obj.judul, obj.jumlahKetersediaan, obj.pengarang, obj.penerbit, sep = " ")
 

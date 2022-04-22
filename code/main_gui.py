@@ -185,7 +185,7 @@ def button_pendaftaran():
     notebook.hide(0)
 
 def login_next():
-    global token, daftar_buku, print_nama_tamu
+    global token, daftar_buku, print_nama_tamu, daftar_peminjaman
     r = login(username.get(),password.get())
 
     # print(r)
@@ -207,6 +207,10 @@ def login_next():
         notebook.add(frame8, text ='Profil User')
         
         daftar_buku = get_latest_library()
+        daftar_peminjaman = get_riwayat(klien.email)
+
+        tampil_profile()
+
 
         for i in daftar_buku:
             print(i.isbn)
@@ -218,12 +222,16 @@ def login_next():
         #PAGE ERROR
         print("ERROR")
     
+    
+    
 #Assign Dummy Data
 for i in range(11):
     list.append(tabel_buku(i+1,judulbuku[i], nama_pengarang[i], penerbit[i],no_isbn[i], 'tersedia',kategori[i]))
     
-    if ((i%2)==0):
-        list_peminjaman.append(pinjamBuku(i,'joshtein@gmail.com',no_isbn[i], 7, "2022-04-13", "2022-04-20", 'Sedang dipinjam'))
+    # if ((i%2)==0):
+    #     list_peminjaman.append(pinjamBuku(i,'joshtein@gmail.com',no_isbn[i], 7, "2022-04-13", "2022-04-20", 'Sedang dipinjam'))
+
+
 
 nextButton = Button(frame1, text="Login", command=login_next)
 nextButton.place(anchor='center',relx=0.5, rely=0.75)
@@ -662,7 +670,7 @@ sortable_t.place(anchor='center', relx=0.5, rely=0.987)
 
 
 
-#########################################################################
+#############################################################################################################################
 
 #Frame 5: Pengembalian Buku
 frame5 = Frame(notebook, width=1280, height=720, style='1.TFrame')
@@ -675,12 +683,54 @@ kembali_buku_logo.place(anchor='center',relx=0.1, rely=0.1)
 fr5return_text1 = Label(frame5, text="Pengembalian Buku", font=('Muli', 20, 'bold underline'), background=backgroundDasar)
 fr5return_text1.place(anchor='w', relx=0.15, rely=0.1)
 
-#Frame 4_0: Sisi kanan Judul
+#Frame 5_0: Sisi kanan Judul
 frame5_0 = Frame(frame5,width=640, height=180, style='1.TFrame')
 frame5_0.pack(side = TOP, anchor = 'e')
 
 fr5borrow_text5 = Label(frame5_0, text="Buku yang sedang dipinjam", font=('Muli', 14, 'bold'), background=backgroundDasar)
 fr5borrow_text5.place(anchor='w', relx=0.03, rely=0.75)
+
+def refresh_tabel_pengembalian():
+    global daftar_peminjaman
+
+    daftar_peminjaman = get_riwayat(klien.email)
+
+    # Get Judul dari daftar buku berdasarkan ISBN
+
+    for i in range(len(daftar_peminjaman)):
+        for j in range(len(daftar_buku)):
+            if(daftar_peminjaman[i].isbn==daftar_buku[j].isbn):
+                daftar_peminjaman[i].judul = daftar_buku[j].judul
+                daftar_peminjaman[i].pengarang = daftar_buku[j].pengarang
+
+    # Refresh Tabel 5 (PENGEMBALIAN)
+    for item in table5.get_children():
+             table5.delete(item)
+
+    for i in range(len(daftar_peminjaman)):
+        table5.insert('', 'end', iid=i, 
+                        values=(daftar_peminjaman[i].id,daftar_peminjaman[i].judul,daftar_peminjaman[i].isbn,daftar_peminjaman[i].tanggalPeminjaman,daftar_peminjaman[i].tanggalPengembalian, daftar_peminjaman[i].status))
+
+    # Refresh Tabel 6 (Perpanjangan)
+    for item in table6.get_children():
+             table6.delete(item)
+
+    for i in range(len(daftar_peminjaman)):
+        table6.insert('', 'end', iid=i, 
+                        values=(daftar_peminjaman[i].id,daftar_peminjaman[i].judul,daftar_peminjaman[i].isbn,daftar_peminjaman[i].tanggalPeminjaman,daftar_peminjaman[i].tanggalPengembalian, daftar_peminjaman[i].status))
+    
+    # Refresh Tabel 7 (Riwayat)
+    for item in fr7table5.get_children():
+             fr7table5.delete(item)
+
+    for i in range(len(daftar_peminjaman)):
+        fr7table5.insert('', 'end', iid=i, 
+                        values=(daftar_peminjaman[i].id,daftar_peminjaman[i].judul,daftar_peminjaman[i].pengarang,daftar_peminjaman[i].isbn,daftar_peminjaman[i].tanggalPeminjaman,daftar_peminjaman[i].tanggalPengembalian, daftar_peminjaman[i].status))
+
+
+refreshButton5 = Button(frame5_0, text="Refresh", command=refresh_tabel_pengembalian)
+refreshButton5.place(anchor='w',relx=0.05, rely=0.95)
+
 #Frame 5_1: Sisi kanan, bagian Tabel 
 frame5_1 = Frame(frame5, width=640, height=720, style='1.TFrame')
 frame5_1.pack(side=RIGHT, anchor = 'center')
@@ -696,40 +746,7 @@ for col in columns5:
     table5.heading(col, text=col)
     table5.column(col, width=100, stretch=True, anchor = 'center')
 
-# table5.column("No", width = 40, stretch=True, anchor = 'center')
-# table5.column("Judul Buku", width = 160, stretch=True, anchor = 'w')
-# table5.column("Penulis", width = 120, stretch=True, anchor = 'w')
-# table5.column("Penerbit", width = 80, stretch=True, anchor = 'w')
-
-# sort column A content as int instead of strings
 table5.column('No', type=int)
-
-#for i in range(50):
-    #table.insert('', 'end', iid=i, values=(i, i) + tuple(i + 10 * j for j in range(2, 7)))
-
-# for i in range(9):
-#     if 'fisika' in judulbuku[i]:
-#         table.insert('', 'end', iid=i, 
-#                         values=(i+1,judulbuku[i],nama_pengarang[i],penerbit[i],no_isbn[i], 'tersedia'))
-
-for i in range(len(list_peminjaman)):
-    no_id_buku = list_peminjaman[i].id
-    table5.insert('', 'end', iid=i, 
-                    values=(no_id_buku,list[no_id_buku-1],list_peminjaman[i].isbn,list_peminjaman[i].tanggalPeminjaman,list_peminjaman[i].tanggalPengembalian, list_peminjaman[i].status))
-
-
-# if ((i%2)==0):
-#         list_peminjaman.append(pinjamBuku(i,klien.email,no_isbn[i], 7, "2022-04-13", "2022-04-20", 'Sedang dipinjam'))
-
-# class pinjamBuku:
-#     def __init__(self):
-#         self.id = None
-#         self.email = None
-#         self.isbn = None
-#         self.durasi = None
-#         self.tanggalPeminjaman = None
-#         self.tanggalPengembalian = None
-#         self.status = None
 
 
 # add scrollbars
@@ -757,9 +774,28 @@ fr5sortable_t.place(anchor='center', relx=0.5, rely=0.987)
 
 #Form Pengembalian Buku
 def enter_no_return_buku():
+    global detailBukuDikembalikan
+    isbnDikembalikan = None
     value_no_return = fr5no_return.get()
     print("Client ingin mengembalikan buku nomor:        ", value_no_return)
+    
+    for i in range(len(daftar_peminjaman)):
+        print(daftar_peminjaman[i].id)
+        if(str(daftar_peminjaman[i].id)==value_no_return):
+            isbnDikembalikan = daftar_peminjaman[i].isbn
+            detailBukuDikembalikan = daftar_peminjaman[i]
+            print("isbn buku dikembalikan " + isbnDikembalikan)
+        else:
+            print("TIDAK ADA")
+    
+    for j in range(len(daftar_buku)):
+        if(daftar_buku[j].isbn==isbnDikembalikan):
+            detailBukuDikembalikan.judul = daftar_buku[j].judul
+            detailBukuDikembalikan.pengarang = daftar_buku[j].pengarang
+            detailBukuDikembalikan.penerbit = daftar_buku[j].penerbit
+
     buku_terpilih_pengembalian()
+
 
 fr5form_pengembalian= Label(frame5, text="Form Pengembalian Buku", font=('Muli', 14, 'bold'), background=backgroundDasar)
 fr5form_pengembalian.place(anchor='w', relx=0.08, rely=0.20)
@@ -777,7 +813,8 @@ fr5button_return.place(anchor='w', relx=0.34, rely=0.30)
 status_pressed_return = 0
 
 def buku_terpilih_pengembalian():
-    global status_pressed_return
+    global status_pressed_return, detailBukuDikembalikan
+    print(detailBukuDikembalikan.judul)
 
     def destroy_labels():
         fr5value_infobuku_judul.destroy()
@@ -813,19 +850,19 @@ def buku_terpilih_pengembalian():
     fr5infobuku_status= Label(frame5, text="Status", font=('Muli', 12, 'bold'), background=backgroundDasar)
     fr5infobuku_status.place(anchor='w', relx=0.08, rely=0.51)
 
-    fr5value_infobuku_judul= Label(frame5, text="Buku ajar fisika radiasi", font=('Muli', 12), background='#dedad9')
+    fr5value_infobuku_judul= Label(frame5, text=detailBukuDikembalikan.judul, font=('Muli', 12), background='#dedad9')
     fr5value_infobuku_judul.place(anchor='w', relx=0.2, rely=0.35)
 
-    fr5value_infobuku_pengarang= Label(frame5, text="Dr. Sarianoferni", font=('Muli', 12), background='#dedad9')
+    fr5value_infobuku_pengarang= Label(frame5, text=detailBukuDikembalikan.pengarang, font=('Muli', 12), background='#dedad9')
     fr5value_infobuku_pengarang.place(anchor='w', relx=0.2, rely=0.39)
     
-    fr5value_infobuku_isbn= Label(frame5, text="978-623-329-815-5", font=('Muli', 12), background='#dedad9')
+    fr5value_infobuku_isbn= Label(frame5, text=detailBukuDikembalikan.isbn, font=('Muli', 12), background='#dedad9')
     fr5value_infobuku_isbn.place(anchor='w', relx=0.2, rely=0.43)
     
-    fr5value_infobuku_penerbit= Label(frame5, text="CV. Literasi Nusantara Abadi", font=('Muli', 12), background='#dedad9')
+    fr5value_infobuku_penerbit= Label(frame5, text=detailBukuDikembalikan.penerbit, font=('Muli', 12), background='#dedad9')
     fr5value_infobuku_penerbit.place(anchor='w', relx=0.2, rely=0.47)
 
-    fr5value_infobuku_status= Label(frame5, text="Belum dikembalikan", font=('Muli', 12), background='#dedad9')
+    fr5value_infobuku_status= Label(frame5, text=detailBukuDikembalikan.status, font=('Muli', 12), background='#dedad9')
     fr5value_infobuku_status.place(anchor='w', relx=0.2, rely=0.51)
 
     #Form Keperluan Peminjaman
@@ -855,8 +892,7 @@ def buku_terpilih_pengembalian():
     def konfirmasi_kembalikan_buku():
         value_no_pinjam = no_pinjam.get()
         print("Client konfirmasi mengembalikan buku nomor:   ", value_no_pinjam)
-        konfirmasi_ok = Label(frame5, image=logo_check, background=backgroundDasar)
-        konfirmasi_ok.place(anchor='w', relx=0.35, rely=0.75)
+        
         fr5value_infobuku_judul.destroy()
         fr5value_infobuku_pengarang.destroy()
         fr5value_infobuku_isbn.destroy()
@@ -865,12 +901,25 @@ def buku_terpilih_pengembalian():
         drop.destroy()
 
         print("client memilih ekspedisi", jenis_ekspedisi.get(), "dengan no resi: ", no_resi.get())
+
+        r = konfirmasi_pengembalian(value_no_pinjam,"Dikembalikan",no_resi.get(),jenis_ekspedisi.get())
+
+        if r['status']:
+            konfirmasi_ok = Label(frame5, image=logo_check, background=backgroundDasar)
+            konfirmasi_ok.place(anchor='w', relx=0.35, rely=0.75)
+        else:
+            konfirmasi_not_ok = Label(frame5, image=logo_forbidden, background=backgroundDasar)
+            konfirmasi_not_ok.place(anchor='w', relx=0.35, rely=0.75)
+
+            pesan_gagal = Label(frame5, text="Pengembalian Gagal", font=('Muli', 12, 'bold'), background=backgroundDasar)
+            pesan_gagal.place(anchor='w', relx=0.35, rely=0.85)
+
         
     button_pinjam = Button(frame5, text="Konfirmasi Pengembalian", command=konfirmasi_kembalikan_buku)
     button_pinjam.place(anchor='w', relx=0.2, rely=0.75)
 
 
-#########################################################################
+##########################################################################################################################
 
 #Frame 6: Perpanjangan Buku
 frame6 = Frame(notebook, width=1280, height=720, style='1.TFrame')
@@ -883,13 +932,17 @@ fr6kembali_buku_logo.place(anchor='center',relx=0.1, rely=0.1)
 fr6return_text1 = Label(frame6, text="Perpanjangan Buku", font=('Muli', 20, 'bold underline'), background=backgroundDasar)
 fr6return_text1.place(anchor='w', relx=0.15, rely=0.1)
 
-#Frame 4_0: Sisi kanan Judul
+#Frame 6_0: Sisi kanan Judul
 frame6_0 = Frame(frame6,width=640, height=180, style='1.TFrame')
 frame6_0.pack(side = TOP, anchor = 'e')
 
 fr6borrow_text5 = Label(frame6_0, text="Buku yang sedang dipinjam", font=('Muli', 14, 'bold'), background=backgroundDasar)
 fr6borrow_text5.place(anchor='w', relx=0.03, rely=0.75)
-#Frame 5_1: Sisi kanan, bagian Tabel 
+
+refreshButton6 = Button(frame6_0, text="Refresh", command=refresh_tabel_pengembalian)
+refreshButton6.place(anchor='w',relx=0.05, rely=0.95)
+
+#Frame 6_1: Sisi kanan, bagian Tabel 
 frame6_1 = Frame(frame6, width=640, height=720, style='1.TFrame')
 frame6_1.pack(side=RIGHT, anchor = 'center')
 
@@ -904,25 +957,10 @@ for col in columns6:
     table6.heading(col, text=col)
     table6.column(col, width=100, stretch=True, anchor = 'center')
 
-# table5.column("No", width = 40, stretch=True, anchor = 'center')
-# table5.column("Judul Buku", width = 160, stretch=True, anchor = 'w')
-# table5.column("Penulis", width = 120, stretch=True, anchor = 'w')
-# table5.column("Penerbit", width = 80, stretch=True, anchor = 'w')
 
 # sort column A content as int instead of strings
 table6.column('No', type=int)
 
-#for i in range(50):
-    #table.insert('', 'end', iid=i, values=(i, i) + tuple(i + 10 * j for j in range(2, 7)))
-
-# for i in range(9):
-#     if 'fisika' in judulbuku[i]:
-#         table.insert('', 'end', iid=i, 
-#                         values=(i+1,judulbuku[i],nama_pengarang[i],penerbit[i],no_isbn[i], 'tersedia'))
-
-for i in range(9):
-    table6.insert('', 'end', iid=i, 
-                    values=(i+1,list[i].judul,list[i].pengarang,list[i].penerbit,list[i].isbn, list[i].status))
 
 
 # add scrollbars
@@ -952,6 +990,25 @@ fr6sortable_t.place(anchor='center', relx=0.5, rely=0.987)
 def enter_no_perpanjang_buku():
     value_no_return = fr6no_return.get()
     print("Client ingin memperpanjang buku nomor:        ", value_no_return)
+
+    global detailBukuDiperpanjang
+    isbnDiperpanjang = None
+
+    for i in range(len(daftar_peminjaman)):
+        print(daftar_peminjaman[i].id)
+        if(str(daftar_peminjaman[i].id)==value_no_return):
+            isbnDiperpanjang = daftar_peminjaman[i].isbn
+            detailBukuDiperpanjang = daftar_peminjaman[i]
+            print("isbn buku dikembalikan " + isbnDiperpanjang)
+        else:
+            print("TIDAK ADA")
+    
+    for j in range(len(daftar_buku)):
+        if(daftar_buku[j].isbn==isbnDiperpanjang):
+            detailBukuDiperpanjang.judul = daftar_buku[j].judul
+            detailBukuDiperpanjang.pengarang = daftar_buku[j].pengarang
+            detailBukuDiperpanjang.penerbit = daftar_buku[j].penerbit
+    
     buku_terpilih_perpanjang()
 
 fr6form_pengembalian= Label(frame6, text="Form Perpanjangan Peminjaman Buku", font=('Muli', 14, 'bold'), background=backgroundDasar)
@@ -1006,19 +1063,24 @@ def buku_terpilih_perpanjang():
     infobuku_status= Label(frame6, text="Status", font=('Muli', 12, 'bold'), background=backgroundDasar)
     infobuku_status.place(anchor='w', relx=0.08, rely=0.51)
 
-    value_infobuku_judul= Label(frame6, text="Buku ajar fisika radiasi", font=('Muli', 12), background='#dedad9')
+    value_infobuku_judul= Label(frame6, text=detailBukuDiperpanjang.judul, font=('Muli', 12), background='#dedad9')
     value_infobuku_judul.place(anchor='w', relx=0.2, rely=0.35)
 
-    value_infobuku_pengarang= Label(frame6, text="Dr. Sarianoferni", font=('Muli', 12), background='#dedad9')
+    value_infobuku_pengarang= Label(frame6, text=detailBukuDiperpanjang.pengarang, font=('Muli', 12), background='#dedad9')
     value_infobuku_pengarang.place(anchor='w', relx=0.2, rely=0.39)
     
-    value_infobuku_isbn= Label(frame6, text="978-623-329-815-5", font=('Muli', 12), background='#dedad9')
+    value_infobuku_isbn= Label(frame6, text=detailBukuDiperpanjang.isbn, font=('Muli', 12), background='#dedad9')
     value_infobuku_isbn.place(anchor='w', relx=0.2, rely=0.43)
     
-    value_infobuku_penerbit= Label(frame6, text="CV. Literasi Nusantara Abadi", font=('Muli', 12), background='#dedad9')
+    value_infobuku_penerbit= Label(frame6, text=detailBukuDiperpanjang.penerbit, font=('Muli', 12), background='#dedad9')
     value_infobuku_penerbit.place(anchor='w', relx=0.2, rely=0.47)
 
-    value_infobuku_status= Label(frame6, text="Dapat diperpanjang", font=('Muli', 12), background='#dedad9')
+    if(detailBukuDiperpanjang.durasi<=28):
+        kondisi = "Dapat diperpanjang"
+    else:
+        kondisi = "Tidak dapat diperpanjang"
+
+    value_infobuku_status= Label(frame6, text=kondisi, font=('Muli', 12), background='#dedad9')
     value_infobuku_status.place(anchor='w', relx=0.2, rely=0.51)
 
     #Form Keperluan Peminjaman
@@ -1041,8 +1103,7 @@ def buku_terpilih_perpanjang():
     def konfirmasi_perpanjang_buku():
         value_no_pinjam = no_pinjam.get()
         print("Client konfirmasi ingin perpanjang buku nomor:   ", value_no_pinjam)
-        konfirmasi_ok = Label(frame6, image=logo_check, background=backgroundDasar)
-        konfirmasi_ok.place(anchor='w', relx=0.35, rely=0.75)
+
         value_infobuku_judul.destroy()
         value_infobuku_pengarang.destroy()
         value_infobuku_isbn.destroy()
@@ -1051,6 +1112,26 @@ def buku_terpilih_perpanjang():
         drop.destroy()
 
         print("client memilih perpanjangan", durasi_perpanjang.get())
+
+        if(durasi_perpanjang.get()=="7 hari"):
+            tambahHari = 7
+        else:
+            tambahHari = 14
+        
+        tanggalPerpanjangan = (datetime.strptime(detailBukuDiperpanjang.tanggalPengembalian, '%Y-%m-%d') + timedelta(days=tambahHari)).strftime('%Y-%m-%d')
+        print(detailBukuDiperpanjang.id," ",tambahHari," ",tanggalPerpanjangan)
+        r = konfirmasi_perpanjangan(detailBukuDiperpanjang.id,tambahHari,tanggalPerpanjangan)
+
+        if r['status']:
+            konfirmasi_ok = Label(frame6, image=logo_check, background=backgroundDasar)
+            konfirmasi_ok.place(anchor='w', relx=0.35, rely=0.75)
+        else:
+            konfirmasi_not_ok = Label(frame6, image=logo_forbidden, background=backgroundDasar)
+            konfirmasi_not_ok.place(anchor='w', relx=0.35, rely=0.75)
+
+            pesan_gagal = Label(frame6, text="Perpanjangan Gagal", font=('Muli', 12, 'bold'), background=backgroundDasar)
+            pesan_gagal.place(anchor='w', relx=0.35, rely=0.85)
+    
         
     button_pinjam = Button(frame6, text="Konfirmasi Perpanjangan", command=konfirmasi_perpanjang_buku)
     button_pinjam.place(anchor='w', relx=0.2, rely=0.75)
@@ -1071,6 +1152,9 @@ fr7return_text1.place(anchor='w', relx=0.15, rely=0.1)
 frame7_1 = Frame(frame7, width=900, height=720, style='1.TFrame')
 frame7_1.pack(side=LEFT, anchor = 'center', padx=100)
 
+refreshButton7 = Button(frame7, text="Refresh", command=refresh_tabel_pengembalian)
+refreshButton7.place(anchor='w',relx=0.05, rely=0.96)
+
 fr7sortable5 = BooleanVar(frame7_1, False)
 fr7drag_row5 = BooleanVar(frame7_1, False)
 fr7drag_col5 = BooleanVar(frame7_1, False)
@@ -1082,25 +1166,10 @@ for col in fr7columns5:
     fr7table5.heading(col, text=col)
     fr7table5.column(col, width=150, stretch=True, anchor = 'center')
 
-# table5.column("No", width = 40, stretch=True, anchor = 'center')
-# table5.column("Judul Buku", width = 160, stretch=True, anchor = 'w')
-# table5.column("Penulis", width = 120, stretch=True, anchor = 'w')
-# table5.column("Penerbit", width = 80, stretch=True, anchor = 'w')
 
 # sort column A content as int instead of strings
 fr7table5.column('No', type=int)
 
-#for i in range(50):
-    #table.insert('', 'end', iid=i, values=(i, i) + tuple(i + 10 * j for j in range(2, 7)))
-
-# for i in range(9):
-#     if 'fisika' in judulbuku[i]:
-#         table.insert('', 'end', iid=i, 
-#                         values=(i+1,judulbuku[i],nama_pengarang[i],penerbit[i],no_isbn[i], 'tersedia'))
-
-for i in range(9):
-    fr7table5.insert('', 'end', iid=i, 
-                    values=(i+1,list[i].judul,list[i].pengarang,list[i].penerbit,list[i].isbn, "Overdue"))
 
 
 # add scrollbars
@@ -1157,37 +1226,62 @@ pendaf_label_nohp = Label(frame8, text="No Hp.", font=('Muli', 12, 'bold'), back
 pendaf_label_nohp.place(anchor='w', relx=0.08, rely=0.45)
 
 user_nama = StringVar()
-user_nama.set("Joshtein Andrew Widjaja")
+# user_nama.set("Joshtein Andrew Widjaja")
 namaEntry = Entry(frame8, textvariable=user_nama, width = 50)
 namaEntry.place(anchor='w',relx=0.2, rely=0.25)
 
 user_email = StringVar()
-user_email.set("joshtein4312@gmail.com")
+# user_email.set("joshtein4312@gmail.com")
 user_email_place = Label(frame8, text=user_email.get(), font=('Muli', 12), background=backgroundDasar)
 user_email_place.place(anchor='w', relx=0.2, rely=0.30)
 
 user_alamat = StringVar()
-user_alamat.set("Jl. Tubagus Ismail 1 No XIV, Sekeloa, Bandung")
+# user_alamat.set("Jl. Tubagus Ismail 1 No XIV, Sekeloa, Bandung")
 alamatEntry = Entry(frame8, textvariable=user_alamat, width = 50)
 alamatEntry.place(anchor='w',relx=0.2, rely=0.35)
 
 user_institusi = StringVar()
-user_institusi.set("Institut Teknologi Bandung")
+# user_institusi.set("Institut Teknologi Bandung")
 institusiEntry = Entry(frame8, textvariable=user_institusi, width = 50)
 institusiEntry.place(anchor='w',relx=0.2, rely=0.40)
 
 user_nohp = StringVar()
-user_nohp.set("081517050777")
+# user_nohp.set("081517050777")
 nohpEntry = Entry(frame8, textvariable=user_nohp, width = 50)
 nohpEntry.place(anchor='w',relx=0.2, rely=0.45)
+
+def tampil_profile():
+    user_nama.set(klien.nama)
+    user_alamat.set(klien.alamat)
+    user_email.set(klien.email)
+    user_email_place = Label(frame8, text=user_email.get(), font=('Muli', 12), background=backgroundDasar)
+    user_email_place.place(anchor='w', relx=0.2, rely=0.30)
+    user_institusi.set(klien.asalInstitusi)
+    user_nohp.set(klien.telepon)
+
+
+    
+
 
 def save_profile():
     print("Nama baru: ", user_nama.get())
     print("Alamat baru: ", user_alamat.get())
     print("Institusi baru: ", user_institusi.get())
     print("No Hp baru: ", user_nohp.get())
-    konfirmasi_ok = Label(frame8, image=logo_check, background=backgroundDasar)
-    konfirmasi_ok.place(anchor='w', relx=0.35, rely=0.75)
+   
+
+    r= change_profile(klien.email,user_nama.get(),user_alamat.get(),user_institusi.get(),user_nohp.get())
+
+    if r['status']:
+        konfirmasi_ok = Label(frame8, image=logo_check, background=backgroundDasar)
+        konfirmasi_ok.place(anchor='w', relx=0.35, rely=0.75)
+
+    else:
+        konfirmasi_not_ok = Label(frame8, image=logo_forbidden, background=backgroundDasar)
+        konfirmasi_not_ok.place(anchor='w', relx=0.35, rely=0.75)
+
+
+
 
 save_change = Button(frame8, text="Simpan", command=save_profile)
 save_change.place(anchor='w', relx=0.34, rely=0.52)
@@ -1307,3 +1401,6 @@ notebook.add(frame9, text ='Pendaftaran User Baru')
 
 
 root.mainloop()
+
+
+

@@ -20,11 +20,17 @@ class book:
         self.kategori = None
 
 class pinjamBuku:
-    def __init__(self, id, email, isbn, durasi, tanggalPeminjaman, tanggalPengembalian,status):
-        self.id = id
-        self.email = email
-        self.isbn = isbn
-        self.durasi = durasi
-        self.tanggalPeminjaman = tanggalPeminjaman
-        self.tanggalPengembalian = tanggalPengembalian
-        self.status = status
+    def __init__(self):
+        self.id = None
+        self.email = None
+        self.isbn = None
+        self.judul = None
+        self.durasi = None
+        self.tanggalPeminjaman = None
+        self.tanggalPengembalian = None
+        self.status = None
+        self.pengarang = None
+        self.penerbit = None
+        self.tahunTerbit = None
+        self.kategori = None
+
