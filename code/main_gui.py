@@ -1170,8 +1170,6 @@ for col in fr7columns5:
 # sort column A content as int instead of strings
 fr7table5.column('No', type=int)
 
-
-
 # add scrollbars
 sx7 = Scrollbar(frame7_1, orient='horizontal', command=table.xview)
 sy7 = Scrollbar(frame7_1, orient='vertical', command=table.yview)

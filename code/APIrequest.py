@@ -235,7 +235,7 @@ def password_check(passwd):
 init()
 
 
-login('admin1@gmail.com','Admin1234')
+# login('admin1@gmail.com','Admin1234')
 # riwayat = get_riwayat('admin1@gmail.com')
 # print("\nRiwayat Peminjaman")
 # for obj in riwayat:
