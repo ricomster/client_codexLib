@@ -143,7 +143,7 @@ def get_riwayat(email):
 
 def konfirmasi_pengembalian(idPeminjam,status,noResi,jasaEkspedisi):
     routes = 'sirkulasi/kembalikanbuku'
-    payload = {'idPeminjam':idPeminjam,
+    payload = {'idPeminjaman':idPeminjam,
                'status':status,
                'noResi':noResi,
                'jasaEkspedisi':jasaEkspedisi}

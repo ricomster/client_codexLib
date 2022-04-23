@@ -708,7 +708,8 @@ def refresh_tabel_pengembalian():
              table5.delete(item)
 
     for i in range(len(daftar_peminjaman)):
-        table5.insert('', 'end', iid=i, 
+        if(daftar_peminjaman[i].status != 'Dikembalikan'):
+            table5.insert('', 'end', iid=i, 
                         values=(daftar_peminjaman[i].id,daftar_peminjaman[i].judul,daftar_peminjaman[i].isbn,daftar_peminjaman[i].tanggalPeminjaman,daftar_peminjaman[i].tanggalPengembalian, daftar_peminjaman[i].status))
 
     # Refresh Tabel 6 (Perpanjangan)
@@ -890,8 +891,8 @@ def buku_terpilih_pengembalian():
     resiEntry.place(anchor='w',relx=0.2, rely=0.60)
 
     def konfirmasi_kembalikan_buku():
-        value_no_pinjam = no_pinjam.get()
-        print("Client konfirmasi mengembalikan buku nomor:   ", value_no_pinjam)
+        value_no_kembali = int(fr5no_return.get())
+        print("Client konfirmasi mengembalikan buku nomor:   ", value_no_kembali)
         
         fr5value_infobuku_judul.destroy()
         fr5value_infobuku_pengarang.destroy()
@@ -902,7 +903,8 @@ def buku_terpilih_pengembalian():
 
         print("client memilih ekspedisi", jenis_ekspedisi.get(), "dengan no resi: ", no_resi.get())
 
-        r = konfirmasi_pengembalian(value_no_pinjam,"Dikembalikan",no_resi.get(),jenis_ekspedisi.get())
+        r = konfirmasi_pengembalian(value_no_kembali,"Dikembalikan",no_resi.get(),jenis_ekspedisi.get())
+        print('isi r: ', r['message'])
 
         if r['status']:
             konfirmasi_ok = Label(frame5, image=logo_check, background=backgroundDasar)
