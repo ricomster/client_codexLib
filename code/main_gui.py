@@ -1282,8 +1282,13 @@ def save_profile():
         konfirmasi_not_ok = Label(frame8, image=logo_forbidden, background=backgroundDasar)
         konfirmasi_not_ok.place(anchor='w', relx=0.35, rely=0.75)
 
+#fungsi sign out ---- lengkapin jadi balik ke login
+def sign_out():
+    signOut()
 
 
+sign_out = Button(frame8, text="Keluar", command=sign_out)
+sign_out.place(anchor='w', relx=0.24, rely=0.52)
 
 save_change = Button(frame8, text="Simpan", command=save_profile)
 save_change.place(anchor='w', relx=0.34, rely=0.52)
