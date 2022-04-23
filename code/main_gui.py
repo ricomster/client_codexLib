@@ -717,7 +717,8 @@ def refresh_tabel_pengembalian():
              table6.delete(item)
 
     for i in range(len(daftar_peminjaman)):
-        table6.insert('', 'end', iid=i, 
+        if(daftar_peminjaman[i].status != 'Dikembalikan'):
+            table6.insert('', 'end', iid=i, 
                         values=(daftar_peminjaman[i].id,daftar_peminjaman[i].judul,daftar_peminjaman[i].isbn,daftar_peminjaman[i].tanggalPeminjaman,daftar_peminjaman[i].tanggalPengembalian, daftar_peminjaman[i].status))
     
     # Refresh Tabel 7 (Riwayat)
@@ -1077,7 +1078,7 @@ def buku_terpilih_perpanjang():
     value_infobuku_penerbit= Label(frame6, text=detailBukuDiperpanjang.penerbit, font=('Muli', 12), background='#dedad9')
     value_infobuku_penerbit.place(anchor='w', relx=0.2, rely=0.47)
 
-    if(detailBukuDiperpanjang.durasi<=28):
+    if(detailBukuDiperpanjang.durasi<28):
         kondisi = "Dapat diperpanjang"
     else:
         kondisi = "Tidak dapat diperpanjang"
@@ -1103,7 +1104,7 @@ def buku_terpilih_perpanjang():
     drop.place(anchor='w', relx=0.2, rely=0.55)
 
     def konfirmasi_perpanjang_buku():
-        value_no_pinjam = no_pinjam.get()
+        value_no_pinjam = detailBukuDiperpanjang.id
         print("Client konfirmasi ingin perpanjang buku nomor:   ", value_no_pinjam)
 
         value_infobuku_judul.destroy()
@@ -1119,10 +1120,11 @@ def buku_terpilih_perpanjang():
             tambahHari = 7
         else:
             tambahHari = 14
-        
+
+        durasiBaru = detailBukuDiperpanjang.durasi+tambahHari
         tanggalPerpanjangan = (datetime.strptime(detailBukuDiperpanjang.tanggalPengembalian, '%Y-%m-%d') + timedelta(days=tambahHari)).strftime('%Y-%m-%d')
-        print(detailBukuDiperpanjang.id," ",tambahHari," ",tanggalPerpanjangan)
-        r = konfirmasi_perpanjangan(detailBukuDiperpanjang.id,tambahHari,tanggalPerpanjangan)
+        print(detailBukuDiperpanjang.id," ",durasiBaru," ",tanggalPerpanjangan)
+        r = konfirmasi_perpanjangan(detailBukuDiperpanjang.id,durasiBaru,tanggalPerpanjangan)
 
         if r['status']:
             konfirmasi_ok = Label(frame6, image=logo_check, background=backgroundDasar)

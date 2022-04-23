@@ -162,8 +162,12 @@ def konfirmasi_perpanjangan(idPeminjaman,durasi,tanggalPengembalian):
                'tanggalPengembalian':tanggalPengembalian}
     r = s.put(url+routes,data=payload)
     if(r.status_code == 200):
-        print('Perpanjangan Berhasil')
-        return {'status':True, 'message':r.json()['message']}
+        if(r.json()['message'] == 'Book borrowing extended successfully!'):
+            print('Perpanjangan Berhasil')
+            return {'status':True, 'message':r.json()['message']}
+        else:
+            print('Perpanjangan Gagal')
+            return {'status':False, 'message':r.json()['message']}
     else:
         print("Perpanjangan Gagal")
         return {'status':False, 'message':r.json()['message']}
