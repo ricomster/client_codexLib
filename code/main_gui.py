@@ -505,6 +505,10 @@ def buku_terpilih(id_buku):
 
                 pesan_berhasil = Label(frame4, text="Peminjaman Berhasil", font=('Muli', 12, 'bold'), background=backgroundDasar)
                 pesan_berhasil.place(anchor='w', relx=0.35, rely=0.85)
+
+                # frame4.after(10000, konfirmasi_ok.destroy())
+                # frame4.after(10000, pesan_berhasil.destroy())
+                # after(1000, konfirmasi_ok.destroy())
             else:
                 konfirmasi_not_ok = Label(frame4, image=logo_forbidden, background=backgroundDasar)
                 konfirmasi_not_ok.place(anchor='w', relx=0.35, rely=0.75)
@@ -704,12 +708,12 @@ def refresh_tabel_pengembalian():
                 daftar_peminjaman[i].pengarang = daftar_buku[j].pengarang
 
     # Refresh Tabel 5 (PENGEMBALIAN)
-    for item in table5.get_children():
-             table5.delete(item)
+    for item in table_balik.get_children():
+             table_balik.delete(item)
 
     for i in range(len(daftar_peminjaman)):
         if(daftar_peminjaman[i].status != 'Dikembalikan'):
-            table5.insert('', 'end', iid=i, 
+            table_balik.insert('', 'end', iid=i, 
                         values=(daftar_peminjaman[i].id,daftar_peminjaman[i].judul,daftar_peminjaman[i].isbn,daftar_peminjaman[i].tanggalPeminjaman,daftar_peminjaman[i].tanggalPengembalian, daftar_peminjaman[i].status))
 
     # Refresh Tabel 6 (Perpanjangan)
@@ -731,47 +735,47 @@ def refresh_tabel_pengembalian():
 
 
 refreshButton5 = Button(frame5_0, text="Refresh", command=refresh_tabel_pengembalian)
-refreshButton5.place(anchor='w',relx=0.05, rely=0.95)
+refreshButton5.place(anchor='w',relx=0.03, rely=0.90)
 
 #Frame 5_1: Sisi kanan, bagian Tabel 
 frame5_1 = Frame(frame5, width=640, height=720, style='1.TFrame')
 frame5_1.pack(side=RIGHT, anchor = 'center')
 
-sortable5 = BooleanVar(frame5_1, False)
+sortable = BooleanVar(frame5_1, False)
 drag_row5 = BooleanVar(frame5_1, False)
 drag_col5 = BooleanVar(frame5_1, False)
 
-columns5 = ["ID", "Judul Buku", "ISBN", "Tgl Peminjaman", "Tgl Pengembalian", "Status"]
-table5 = Table(frame5_1, columns=columns5, sortable=sortable5.get(), drag_cols=drag_col5.get(),
+columns_balik = ["ID", "Judul Buku", "ISBN", "Tgl Peminjaman", "Tgl Pengembalian", "Status"]
+table_balik = Table(frame5_1, columns=columns_balik, sortable=sortable.get(), drag_cols=drag_col5.get(),
               drag_rows=drag_row5.get(), height=20)
-for col in columns5:
-    table5.heading(col, text=col)
-    table5.column(col, width=100, stretch=True, anchor = 'center')
+for col in columns_balik:
+    table_balik.heading(col, text=col)
+    table_balik.column(col, width=100, stretch=True, anchor = 'center')
 
-table5.column('No', type=int)
+table_balik.column('No', type=int)
 
 
 # add scrollbars
-sx5 = Scrollbar(frame5_1, orient='horizontal', command=table.xview)
-sy5 = Scrollbar(frame5_1, orient='vertical', command=table.yview)
-table.configure(yscrollcommand=sy5.set, xscrollcommand=sx5.set)
+sx_balik = Scrollbar(frame5_1, orient='horizontal', command=table.xview)
+sy_balik = Scrollbar(frame5_1, orient='vertical', command=table.yview)
+table.configure(yscrollcommand=sy_balik.set, xscrollcommand=sx_balik.set)
 
-table5.grid(sticky='ewns')
-sx5.grid(row=1, column=0, sticky='ew')
-sy5.grid(row=0, column=1, sticky='ns')
+table_balik.grid(sticky='ewns')
+sx_balik.grid(row=1, column=0, sticky='ew')
+sy_balik.grid(row=0, column=1, sticky='ns')
 frame5_1.update_idletasks()
 
 # toggle table properties
-def toggle_sort5():
-    table5.config(sortable=sortable.get())
+def toggle_sort_balik():
+    table_balik.config(sortable=sortable.get())
 
-def toggle_drag_col5():
-    table5.config(drag_cols=drag_col.get())
+def toggle_drag_col_balik():
+    table_balik.config(drag_cols=drag_col.get())
 
-def toggle_drag_row5():
-    table5.config(drag_rows=drag_row.get())
+def toggle_drag_row_balik():
+    table_balik.config(drag_rows=drag_row.get())
 
-fr5sortable_t = Checkbutton(frame5_1, text='Enable Sorting', variable=sortable, command=toggle_sort5)#.pack(side='left')
+fr5sortable_t = Checkbutton(frame5_1, text='Enable Sorting', variable=sortable, command=toggle_sort_balik)#.pack(side='left')
 fr5sortable_t.place(anchor='center', relx=0.5, rely=0.987)
 
 #Form Pengembalian Buku
@@ -836,6 +840,10 @@ def buku_terpilih_pengembalian():
         
     #global status_pressed 
     #
+    w = Canvas(frame5, width=380, height=200, bg="#ffffff")
+
+    #w.create_rectangle(100, 100, 100, 100, fill="blue", outline = 'blue')
+    w.place(anchor='w', relx=0.2, rely=0.475)
 
     fr5infobuku_judul= Label(frame5, text="Judul", font=('Muli', 12, 'bold'), background=backgroundDasar)
     fr5infobuku_judul.place(anchor='w', relx=0.08, rely=0.35)
@@ -943,18 +951,18 @@ fr6borrow_text5 = Label(frame6_0, text="Buku yang sedang dipinjam", font=('Muli'
 fr6borrow_text5.place(anchor='w', relx=0.03, rely=0.75)
 
 refreshButton6 = Button(frame6_0, text="Refresh", command=refresh_tabel_pengembalian)
-refreshButton6.place(anchor='w',relx=0.05, rely=0.95)
+refreshButton6.place(anchor='w',relx=0.03, rely=0.90)
 
 #Frame 6_1: Sisi kanan, bagian Tabel 
 frame6_1 = Frame(frame6, width=640, height=720, style='1.TFrame')
 frame6_1.pack(side=RIGHT, anchor = 'center')
 
-sortable6 = BooleanVar(frame6_1, False)
+sortable = BooleanVar(frame6_1, False)
 drag_row6 = BooleanVar(frame6_1, False)
 drag_col6 = BooleanVar(frame6_1, False)
 
 columns6 = ["No", "Judul Buku", "Penulis", "ISBN", "Tgl Pengembalian", "Status"]
-table6 = Table(frame6_1, columns=columns6, sortable=sortable6.get(), drag_cols=drag_col6.get(),
+table6 = Table(frame6_1, columns=columns6, sortable=sortable.get(), drag_cols=drag_col6.get(),
               drag_rows=drag_row5.get(), height=20)
 for col in columns6:
     table6.heading(col, text=col)
@@ -964,12 +972,10 @@ for col in columns6:
 # sort column A content as int instead of strings
 table6.column('No', type=int)
 
-
-
 # add scrollbars
 sx6 = Scrollbar(frame6_1, orient='horizontal', command=table.xview)
 sy6 = Scrollbar(frame6_1, orient='vertical', command=table.yview)
-table.configure(yscrollcommand=sy5.set, xscrollcommand=sx5.set)
+table.configure(yscrollcommand=sy6.set, xscrollcommand=sx6.set)
 
 table6.grid(sticky='ewns')
 sx6.grid(row=1, column=0, sticky='ew')
@@ -978,13 +984,13 @@ frame6_1.update_idletasks()
 
 # toggle table properties
 def toggle_sort6():
-    table5.config(sortable=sortable.get())
+    table6.config(sortable=sortable.get())
 
 def toggle_drag_col6():
-    table5.config(drag_cols=drag_col.get())
+    table6.config(drag_cols=drag_col.get())
 
 def toggle_drag_row6():
-    table5.config(drag_rows=drag_row.get())
+    table6.config(drag_rows=drag_row.get())
 
 fr6sortable_t = Checkbutton(frame6_1, text='Enable Sorting', variable=sortable, command=toggle_sort6)#.pack(side='left')
 fr6sortable_t.place(anchor='center', relx=0.5, rely=0.987)
@@ -1050,6 +1056,10 @@ def buku_terpilih_perpanjang():
         
     #global status_pressed 
     #
+    w = Canvas(frame6, width=380, height=165, bg="#ffffff")
+
+    #w.create_rectangle(100, 100, 100, 100, fill="blue", outline = 'blue')
+    w.place(anchor='w', relx=0.2, rely=0.45)
 
     infobuku_judul= Label(frame6, text="Judul", font=('Muli', 12, 'bold'), background=backgroundDasar)
     infobuku_judul.place(anchor='w', relx=0.08, rely=0.35)
@@ -1157,7 +1167,7 @@ frame7_1 = Frame(frame7, width=900, height=720, style='1.TFrame')
 frame7_1.pack(side=LEFT, anchor = 'center', padx=100)
 
 refreshButton7 = Button(frame7, text="Refresh", command=refresh_tabel_pengembalian)
-refreshButton7.place(anchor='w',relx=0.05, rely=0.96)
+refreshButton7.place(anchor='w',relx=0.4, rely=0.1)
 
 fr7sortable5 = BooleanVar(frame7_1, False)
 fr7drag_row5 = BooleanVar(frame7_1, False)
@@ -1166,6 +1176,7 @@ fr7drag_col5 = BooleanVar(frame7_1, False)
 fr7columns5 = ["No", "Judul Buku", "Penulis", "ISBN", "Tgl Peminjaman", "Tgl Pengembalian", "Status"]
 fr7table5 = Table(frame7_1, columns=fr7columns5, sortable=fr7sortable5.get(), drag_cols=fr7drag_col5.get(),
               drag_rows=fr7drag_row5.get(), height=20)
+
 for col in fr7columns5:
     fr7table5.heading(col, text=col)
     fr7table5.column(col, width=150, stretch=True, anchor = 'center')
@@ -1186,7 +1197,7 @@ frame7_1.update_idletasks()
 
 # toggle table properties
 def toggle_sort7():
-    table5.config(sortable=sortable.get())
+    fr7table5.config(sortable=fr7sortable5.get())
 
 def toggle_drag_col5():
     table5.config(drag_cols=drag_col.get())
@@ -1194,7 +1205,7 @@ def toggle_drag_col5():
 def toggle_drag_row5():
     table5.config(drag_rows=drag_row.get())
 
-fr7sortable_t = Checkbutton(frame7_1, text='Enable Sorting', variable=sortable, command=toggle_sort7)#.pack(side='left')
+fr7sortable_t = Checkbutton(frame7_1, text='Enable Sorting', variable=fr7sortable5, command=toggle_sort7)#.pack(side='left')
 fr7sortable_t.place(anchor='center', relx=0.5, rely=0.987)
 
 
@@ -1284,6 +1295,16 @@ def save_profile():
 
 #fungsi sign out ---- lengkapin jadi balik ke login
 def sign_out():
+    notebook.hide(1) #dashboard
+    notebook.hide(2) #Peminjaman
+    notebook.hide(3) #Pengembalian
+    notebook.hide(4) #Perpanjangan
+    notebook.hide(5) #Riwayat
+    notebook.hide(6) #Profil User
+    #notebook.hide(7) #Pendaftaran User Baru
+
+    notebook.add(frame1, text='Login Page')
+    notebook.select(0)
     signOut()
 
 
@@ -1373,7 +1394,7 @@ def save_pendaftaran():
             notebook.add(frame5, text ='Pengembalian Buku')
             notebook.add(frame7, text ='Riwayat')
             notebook.add(frame8, text ='Profil User')
-            notebook.add(frame9, text ='Pendaftaran User Baru')
+            # notebook.add(frame9, text ='Pendaftaran User Baru')
 
             login(pendaf_user_email.get(),pendaf_user_pass.get())
             print('cek klien email: ', klien.email)
@@ -1398,13 +1419,13 @@ notebook.add(frame7, text ='Riwayat')
 notebook.add(frame8, text ='Profil User')
 notebook.add(frame9, text ='Pendaftaran User Baru')
 
-# notebook.hide(1) #dashboard
-# notebook.hide(2) #Peminjaman
-# notebook.hide(3) #Pengembalian
-# notebook.hide(4) #Perpanjangan
-# notebook.hide(5) #Riwayat
-# notebook.hide(6) #Profil User
-# notebook.hide(7) #Pendaftaran User Baru
+notebook.hide(1) #dashboard
+notebook.hide(2) #Peminjaman
+notebook.hide(3) #Pengembalian
+notebook.hide(4) #Perpanjangan
+notebook.hide(5) #Riwayat
+notebook.hide(6) #Profil User
+notebook.hide(7) #Pendaftaran User Baru
 
 
 root.mainloop()
