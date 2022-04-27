@@ -497,7 +497,7 @@ def buku_terpilih(id_buku):
 
             print(current, "+7 jadi", next_week)
 
-            r = konfirmasi_peminjaman(klien.email,daftar_buku[id_buku-1].isbn,current, 7, next_week, 'Sedang dikirim')
+            r = konfirmasi_peminjaman(klien.email,daftar_buku[id_buku-1].isbn,current, 7, next_week, 'Sedang dipinjam')
 
             if r['status']:
                 konfirmasi_ok = Label(frame4, image=logo_check, background=backgroundDasar)
