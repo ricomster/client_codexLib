@@ -1200,10 +1200,10 @@ def toggle_sort7():
     fr7table5.config(sortable=fr7sortable5.get())
 
 def toggle_drag_col5():
-    table5.config(drag_cols=drag_col.get())
+    fr7table5.config(drag_cols=drag_col.get())
 
 def toggle_drag_row5():
-    table5.config(drag_rows=drag_row.get())
+    fr7table5.config(drag_rows=drag_row.get())
 
 fr7sortable_t = Checkbutton(frame7_1, text='Enable Sorting', variable=fr7sortable5, command=toggle_sort7)#.pack(side='left')
 fr7sortable_t.place(anchor='center', relx=0.5, rely=0.987)
