@@ -497,7 +497,7 @@ def buku_terpilih(id_buku):
 
             print(current, "+7 jadi", next_week)
 
-            r = konfirmasi_peminjaman(klien.email,daftar_buku[id_buku-1].isbn,current, 7, next_week, 'Sedang dikirim')
+            r = konfirmasi_peminjaman(klien.email,daftar_buku[id_buku-1].isbn,current, 7, next_week, 'Sedang dipinjam')
 
             if r['status']:
                 konfirmasi_ok = Label(frame4, image=logo_check, background=backgroundDasar)
@@ -530,7 +530,7 @@ def buku_terpilih(id_buku):
 
             print(current, "+14 jadi", next_week)
 
-            r = konfirmasi_peminjaman(klien.email,daftar_buku[id_buku-1].isbn,current, 14, next_week, 'Sedang dikirim')
+            r = konfirmasi_peminjaman(klien.email,daftar_buku[id_buku-1].isbn,current, 14, next_week, 'Sedang dipinjam')
 
             if r['status']:
                 konfirmasi_ok = Label(frame4, image=logo_check, background=backgroundDasar)
@@ -745,7 +745,7 @@ sortable = BooleanVar(frame5_1, False)
 drag_row5 = BooleanVar(frame5_1, False)
 drag_col5 = BooleanVar(frame5_1, False)
 
-columns_balik = ["ID", "Judul Buku", "ISBN", "Tgl Peminjaman", "Tgl Pengembalian", "Status"]
+columns_balik = ["ID-Peminjaman", "Judul Buku", "ISBN", "Tgl Peminjaman", "Tgl Pengembalian", "Status"]
 table_balik = Table(frame5_1, columns=columns_balik, sortable=sortable.get(), drag_cols=drag_col5.get(),
               drag_rows=drag_row5.get(), height=20)
 for col in columns_balik:
@@ -783,7 +783,7 @@ def enter_no_return_buku():
     global detailBukuDikembalikan
     isbnDikembalikan = None
     value_no_return = fr5no_return.get()
-    print("Client ingin mengembalikan buku nomor:        ", value_no_return)
+    print("Client ingin mengembalikan buku dengan ID-peminjaman:        ", value_no_return)
     
     for i in range(len(daftar_peminjaman)):
         print(daftar_peminjaman[i].id)
@@ -806,7 +806,7 @@ def enter_no_return_buku():
 fr5form_pengembalian= Label(frame5, text="Form Pengembalian Buku", font=('Muli', 14, 'bold'), background=backgroundDasar)
 fr5form_pengembalian.place(anchor='w', relx=0.08, rely=0.20)
 
-fr5return_text1 = Label(frame5, text="Masukkan nomor buku yang ingin dikembalikan:", font=('Muli', 13, 'bold'), background=backgroundDasar)
+fr5return_text1 = Label(frame5, text="Masukkan ID-Peminjaman buku yang ingin dikembalikan:", font=('Muli', 13, 'bold'), background=backgroundDasar)
 fr5return_text1.place(anchor='w', relx=0.08, rely=0.25)
 
 fr5no_return = StringVar()
@@ -901,7 +901,7 @@ def buku_terpilih_pengembalian():
 
     def konfirmasi_kembalikan_buku():
         value_no_kembali = int(fr5no_return.get())
-        print("Client konfirmasi mengembalikan buku nomor:   ", value_no_kembali)
+        print("Client konfirmasi mengembalikan buku dengan Id-peminjaman:   ", value_no_kembali)
         
         fr5value_infobuku_judul.destroy()
         fr5value_infobuku_pengarang.destroy()
@@ -961,7 +961,7 @@ sortable = BooleanVar(frame6_1, False)
 drag_row6 = BooleanVar(frame6_1, False)
 drag_col6 = BooleanVar(frame6_1, False)
 
-columns6 = ["No", "Judul Buku", "Penulis", "ISBN", "Tgl Pengembalian", "Status"]
+columns6 = ["ID-Peminjaman", "Judul Buku", "ISBN", "Tgl Peminjaman", "Tgl Pengembalian", "Status"]
 table6 = Table(frame6_1, columns=columns6, sortable=sortable.get(), drag_cols=drag_col6.get(),
               drag_rows=drag_row5.get(), height=20)
 for col in columns6:
@@ -1023,7 +1023,7 @@ def enter_no_perpanjang_buku():
 fr6form_pengembalian= Label(frame6, text="Form Perpanjangan Peminjaman Buku", font=('Muli', 14, 'bold'), background=backgroundDasar)
 fr6form_pengembalian.place(anchor='w', relx=0.08, rely=0.20)
 
-fr6return_text1 = Label(frame6, text="Masukkan nomor buku yang ingin diperpanjang:", font=('Muli', 13, 'bold'), background=backgroundDasar)
+fr6return_text1 = Label(frame6, text="Masukkan ID-peminjaman buku yang ingin diperpanjang:", font=('Muli', 13, 'bold'), background=backgroundDasar)
 fr6return_text1.place(anchor='w', relx=0.08, rely=0.25)
 
 fr6no_return = StringVar()
@@ -1090,8 +1090,10 @@ def buku_terpilih_perpanjang():
 
     if(detailBukuDiperpanjang.durasi<28):
         kondisi = "Dapat diperpanjang"
+        print("durasi sekarang:", detailBukuDiperpanjang.durasi)
     else:
         kondisi = "Tidak dapat diperpanjang"
+        print("durasi sekarang:", detailBukuDiperpanjang.durasi)
 
     value_infobuku_status= Label(frame6, text=kondisi, font=('Muli', 12), background='#dedad9')
     value_infobuku_status.place(anchor='w', relx=0.2, rely=0.51)
@@ -1173,7 +1175,7 @@ fr7sortable5 = BooleanVar(frame7_1, False)
 fr7drag_row5 = BooleanVar(frame7_1, False)
 fr7drag_col5 = BooleanVar(frame7_1, False)
 
-fr7columns5 = ["No", "Judul Buku", "Penulis", "ISBN", "Tgl Peminjaman", "Tgl Pengembalian", "Status"]
+fr7columns5 = ["ID-Peminjaman", "Judul Buku", "Penulis", "ISBN", "Tgl Peminjaman", "Tgl Pengembalian", "Status"]
 fr7table5 = Table(frame7_1, columns=fr7columns5, sortable=fr7sortable5.get(), drag_cols=fr7drag_col5.get(),
               drag_rows=fr7drag_row5.get(), height=20)
 
@@ -1271,10 +1273,6 @@ def tampil_profile():
     user_email_place.place(anchor='w', relx=0.2, rely=0.30)
     user_institusi.set(klien.asalInstitusi)
     user_nohp.set(klien.telepon)
-
-
-    
-
 
 def save_profile():
     print("Nama baru: ", user_nama.get())
