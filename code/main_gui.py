@@ -220,6 +220,11 @@ def login_next():
         
     else:
         #PAGE ERROR
+        error_pass = Label(frame1, text=r['message'], font=("Muli", 12), background='#FF0000')
+        error_pass.place(anchor='center', relx=0.5, rely=0.65)
+
+        # konfirmasi_not_ok = Label(frame1, image=logo_forbidden, background=backgroundDasar)
+        # konfirmasi_not_ok.place(anchor='w', relx=0.75, rely=0.65)
         print("ERROR")
     
     
