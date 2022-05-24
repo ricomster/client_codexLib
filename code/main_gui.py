@@ -586,6 +586,7 @@ def refresh_tabel_pencarian():
         #load_data = 0
     
     elif(load_data == 0):
+        daftar_buku = get_latest_library()
         for i in range (len(daftar_buku)):
             table.insert('', 'end', iid=i, 
                         values=(i+1,daftar_buku[i].judul,daftar_buku[i].pengarang,daftar_buku[i].penerbit,daftar_buku[i].isbn, daftar_buku[i].jumlahKetersediaan))
@@ -1371,6 +1372,7 @@ pendaf_nohpEntry = Entry(frame9, textvariable=pendaf_user_nohp, width = 50)
 pendaf_nohpEntry.place(anchor='w',relx=0.47, rely=0.70)
 
 def save_pendaftaran():
+    global daftar_buku, daftar_peminjaman
     response = signUp(pendaf_user_nama.get(), pendaf_user_email.get(), pendaf_user_pass.get(), pendaf_user_alamat.get(), pendaf_user_institusi.get(), pendaf_user_nohp.get())
     print("Nama baru: ", pendaf_user_nama.get())
     print("Email baru: ", pendaf_user_email.get())
@@ -1395,6 +1397,8 @@ def save_pendaftaran():
             # notebook.add(frame9, text ='Pendaftaran User Baru')
 
             login(pendaf_user_email.get(),pendaf_user_pass.get())
+            daftar_buku = get_latest_library()
+            daftar_peminjaman = get_riwayat(klien.email)
             print('cek klien email: ', klien.email)
             print_nama_tamu = "Selamat datang, " + klien.nama + " di CodexLib Bandung!"
         else:
