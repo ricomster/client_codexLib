@@ -1,3 +1,12 @@
+##################################################################################
+# Tugas Besar PPLJ EL4236 - Semester II 2021/2022
+# Kelompok Perpustakaan
+# - Ignatius Enrico Bramantya 13218059
+# - Reihan Augeetiansyah 13218015
+# - Joshtein Andrew Widjaja 1321018
+# Deskripsi: Kode implementasi User Interface untuk program perpustakaan online 
+######################################################################################
+
 from tkinter import *
 from tkinter.ttk import *
 from PIL import ImageTk, Image
