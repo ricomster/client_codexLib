@@ -8,7 +8,6 @@ import requests
 import dataVariable
 from ast import Global
 from wsgiref import headers
-from validate_email import validate_email
 from datetime import date, datetime, timedelta
 
 # Progres: table udah, search mechanism dan printing ke table juga udah bisa
